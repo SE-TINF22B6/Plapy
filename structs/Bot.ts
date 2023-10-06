@@ -17,6 +17,7 @@ import { config } from "../utils/config";
 import { i18n } from "../utils/i18n";
 import { MissingPermissionsException } from "../utils/MissingPermissionsException";
 import { MusicQueue } from "./MusicQueue";
+import { SavedPlaylist } from "./SavedPlaylist";
 
 export class Bot {
   public readonly prefix = "/";
@@ -25,6 +26,7 @@ export class Bot {
   public slashCommandsMap = new Collection<string, Command>();
   public cooldowns = new Collection<string, Collection<Snowflake, number>>();
   public queues = new Collection<Snowflake, MusicQueue>();
+  public savedPlaylists = new Collection<string, SavedPlaylist>();
 
   public constructor(public readonly client: Client) {
     this.client.login(config.TOKEN);

@@ -83,7 +83,8 @@
   "addToPlaylist": {
     "description": "Add the currently playing song to a custom playlist",
     "descriptionOption": "The name of the playlist to add the song to",
-    "songOption": "Add a specific song instead of the currently playing one"
+    "songOption": "Add a specific song instead of the currently playing one",
+    "embedPlaylist": "\n\n{info}"
   },
   "playlist": {
     "description": "Play a playlist from youtube",
