@@ -80,6 +80,11 @@
     "errorNoResults": "No results found for {url}",
     "errorInvalidURL": "Invalid URL, please try a search or youtube url"
   },
+  "addToPlaylist": {
+    "description": "Add the currently playing song to a custom playlist",
+    "descriptionOption": "The name of the playlist to add the song to",
+    "songOption": "Add a specific song instead of the currently playing one"
+  },
   "playlist": {
     "description": "Play a playlist from youtube",
     "usagesReply": "Usage: {prefix}playlist <YouTube Playlist URL | Playlist Name>",
