@@ -1,13 +1,9 @@
 {
-  "name": "evobot",
-  "version": "2.8.1",
+  "name": "plapy",
+  "version": "1.0.0",
   "description": "Discord music bot built with discord.js",
   "main": "index.ts",
-  "author": "Erit Islami <eritislami@gmail.com>",
-  "private": true,
-  "homepage": "https://github.com/eritislami/evobot",
-  "repository": "github:eritislami/evobot",
-  "bugs": "https://github.com/eritislami/evobot/issues",
+  "based on": "https://github.com/eritislami/evobot.git",
   "engines": {
     "node": ">=16.11.0"
   },

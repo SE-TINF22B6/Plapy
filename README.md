@@ -1,4 +1,8 @@
+# workflow:
+<img width="764" alt="Bildschirmfoto 2023-10-06 um 15 36 50" src="https://github.com/SE-TINF22B6/Plapy/assets/57218126/3b200d0b-633b-46b6-9e80-c4e56fe20d2c">
+
 # 🤖 Plapy (Discord Music Bot)
+
 
 > Plapy is a Discord Music Bot built with TypeScript, discord.js & uses Command Handler from [discordjs.guide](https://discordjs.guide)
 
