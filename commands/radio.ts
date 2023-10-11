@@ -7,12 +7,13 @@ import { i18n } from "../utils/i18n";
 import { playlistPattern } from "../utils/patterns";
 import YouTube from "youtube-sr";
 
+
 export default {
     data: new SlashCommandBuilder()
         .setName("radio")
         .setDescription(i18n.__("play.description"))
         .addStringOption((option) => option.setName("song").setDescription("The song to base the radio on").setRequired(true))
-        .addStringOption((option) => option.setName("songs").setDescription("number of radio songs").setRequired(true)),
+        .addStringOption((option) => option.setName("songs").setDescription("Number of radio songs, up to a max of 25").setRequired(true)),
     cooldown: 3,
     permissions: [
         PermissionsBitField.Flags.Connect,
@@ -83,17 +84,26 @@ export default {
             queue.enqueue(song);
             let songyt = await YouTube.getVideo(song.url);
             let addedSongs = 0;
-            const desiredSongs = Number.parseInt(interaction.options.getString("songs")!);
+            let desiredSongs = Number.parseInt(interaction.options.getString("songs")!);
+            if(desiredSongs > 25) {
+                desiredSongs = 25;
+                (interaction.channel as TextChannel)
+                    .send({ content: `Maximum allowed radio songs are 25` }).catch(console.error);
+            }
             while (addedSongs < desiredSongs) {
-                for (const {index, value} of songyt.videos!.map((value, index) => ({index, value}))) {
+                for (const {value} of songyt.videos!.map((value, index) => ({index, value}))) {
                     if (addedSongs == desiredSongs) break
                     queue.enqueue(await Song.from(value.url));
                     addedSongs++;
+                    if (interaction.replied)
+                        await interaction.editReply({ content: `Added ${addedSongs} out of  ${desiredSongs} songs` }).catch(console.error);
+                    else interaction.reply({ content: `Added ${addedSongs} out of  ${desiredSongs} songs` }).catch(console.error);
                 }
                 let length = songyt.videos?.length!
                 let lastSongUrl = songyt.videos?.at(length! - 1)?.url!
                 songyt = await YouTube.getVideo(lastSongUrl)
             }
+            interaction.deleteReply().catch(console.error);
             return (interaction.channel as TextChannel)
                 .send({content: `${song.title} and ${songyt.videos?.length} matching songs have been added to queue`})
                 .catch(console.error);
@@ -114,12 +124,20 @@ export default {
         newQueue.enqueue(song);
         let songyt = await YouTube.getVideo(song.url);
         let addedSongs = 0;
-        const desiredSongs = Number.parseInt(interaction.options.getString("songs")!);
+        let desiredSongs = Number.parseInt(interaction.options.getString("songs")!);
+        if(desiredSongs > 25) {
+            desiredSongs = 25;
+            (interaction.channel as TextChannel)
+                .send({ content: `Maximum allowed radio songs are 25` }).catch(console.error);
+        }
         while (addedSongs < desiredSongs) {
-            for (const {index, value} of songyt.videos!.map((value, index) => ({index, value}))) {
+            for (const {value} of songyt.videos!.map((value, index) => ({index, value}))) {
                 if (addedSongs == desiredSongs) break
                 newQueue.enqueue(await Song.from(value.url));
                 addedSongs++;
+                if (interaction.replied)
+                    await interaction.editReply({ content: `Added ${addedSongs} out of  ${desiredSongs} songs` }).catch(console.error);
+                else interaction.reply({ content: `Added ${addedSongs} out of  ${desiredSongs} songs` }).catch(console.error);
             }
             let length = songyt.videos?.length!
             let lastSongUrl = songyt.videos?.at(length! - 1)?.url!
