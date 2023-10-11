@@ -3,14 +3,21 @@
 
 # 🤖 Plapy (Discord Music Bot)
 
-
 > Plapy is a Discord Music Bot built with TypeScript, discord.js & uses Command Handler from [discordjs.guide](https://discordjs.guide)
+> The project is based on a fork of the open source music bot evobot https://github.com/eritislami/evobot.
+> Goals of the project are:
+1. To add more functionality like saving and playing playlists from the bots database.
+2. To provide an API for the user that allows control outside of discord command
+3. To create a web interface that allows control via the API with a GUI
+4. To improve the queue experience by providing new features like autoplay and play next
+5. To host the bot and website on an external server enabling 24/7 access
 
 ## Requirements
 
 1. Discord Bot Token **[Guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)**  
    1.1. Enable 'Message Content Intent' in Discord Developer Portal
 2. Node.js 16.11.0 or newer
+3. Open port 80 (or the desired port that you configured) on the server that's hosting the project for API and website access
 
 ## 🚀 Getting Started
 
@@ -29,12 +36,13 @@ Copy or Rename `config.json.example` to `config.json` and fill out the values:
   "PRUNING": false,
   "LOCALE": "en",
   "DEFAULT_VOLUME": 100,
-  "STAY_TIME": 30
+  "STAY_TIME": 30,
+   "SERVER_IP": "localhost"
 }
 ```
 
 
-## 📝 Features & Commands
+## 📝 Base Functionality
 
 - 🎶 Play music from YouTube via url
 
@@ -70,18 +78,33 @@ Copy or Rename `config.json.example` to `config.json` and fill out the values:
 - Remove song # from queue (/remove)
 - Show ping to Discord API (/ping)
 - Show bot uptime (/uptime)
-- Toggle pruning of bot messages (/pruning)
 - Help (/help)
 - Command Handler from [discordjs.guide](https://discordjs.guide/)
 - Media Controls via Reactions
+
+## 🆕 New commands available with Plapy
+
+- Start an autoplay radio based on a song (/radio)
+
+## 🫵 Available API-Endpoints
+
+- Stop the playback (/stop)
+- Skip (/skip)
+- Volume control (/volume)
+- Play --currently only available if a server has an active queue-- (/play)
 
 ![reactions](https://i.imgur.com/0hdUX1C.png)
 
 ## 🌎 Locales
 
+⚠️ **Note: The Plapy team only maintains the english localization for all added commands** ⚠️
+
 Currently available locales are:
 
 - English (en)
+
+⚠️ **Not maintained for Plapy commands** ⚠️
+
 - Arabic (ar)
 - Brazilian Portuguese (pt_br)
 - Bulgarian (bg)
