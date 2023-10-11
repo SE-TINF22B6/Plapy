@@ -1,18 +1,6 @@
 import { Client, GatewayIntentBits } from "discord.js";
 import { Bot } from "./structs/Bot";
-import { Request, Response } from 'express';
-import express from 'express';
-
-const app = express();
-const port = 3000;
-
-app.get('/', (req: Request, res: Response) => {
-    res.send('Hello World!');
-});
-
-app.listen(port, () => {
-    console.log(`Server is running at ip http://localhost:${port}`);
-});
+import Server from "./structs/Server";
 
 export const bot = new Bot(
   new Client({
@@ -26,3 +14,4 @@ export const bot = new Bot(
     ]
   })
 );
+export const server = new Server(3000);
