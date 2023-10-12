@@ -43,11 +43,7 @@ echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.co
 sudo apt-get update
 sudo apt-get install nodejs -y
 ```
-4. Install NodeJS v20
-```bash
-sudo yum install https://rpm.nodesource.com/pub_20.x/nodistro/repo/nodesource-release-nodistro-1.noarch.rpm -y
-sudo yum install nodejs -y --setopt=nodesource-nodejs.module_hotfixes=1
-```
+
 ## Clone the repo <a name="clone-repo"></a>
 1. Install Git
 ```bash
@@ -57,7 +53,6 @@ sudo apt install git -y
 ```bash
 git clone https://github.com/SE-TINF22B6/Plapy.git
 ```
-3. Enter your GitHub credentials (You have to generate a token for this)
 3. Change into the repo directory
 ```bash
 cd Plapy
@@ -81,34 +76,48 @@ pm2 startup systemd
 ```
 
 ## Seting up PM2 <a name="pm2-config"></a>
-1. Create a new PM2 config file
+
+2. Create and edit the pm2.config.js file
 ```bash
-pm2 ecosystem
-```
-2. Edit the ecosystem.config.js file
-```bash
-nano ecosystem.config.js
+nano pm2.config.js
 ```
 3. Add the following to the file
 ```js
 module.exports = {
-  apps : [{
-    name: 'Plapy',
-    script: 'index.js',
-    env: {
-      NODE_ENV: 'production'
-    }
-  }]
+  apps: [
+    {
+      name: 'My Application',
+      script: './dist/index.js',
+    },
+  ],
 };
 ```
 4. Save and exit the file
+5. Open the package.json file
+```bash
+nano package.json
+```
+6. Add the following to the file in the scripts section
+```json
+"scripts": {
+    "start": "pm2 start pm2.config.js"
+  },
+```
 5. Start the app
 ```bash
-pm2 start ecosystem.config.js
+pm2 start pm2.config.js
 ```
 6. Save the PM2 config
 ```bash
 pm2 save
+```
+7. Check the status of the app
+```bash
+pm2 status
+```
+8. Check the logs of the app
+```bash
+pm2 monit
 ```
 
 ## Reroutung port 80 to 3000 <a name="port-80-to-3000"></a>
