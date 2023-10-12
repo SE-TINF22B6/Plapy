@@ -22,6 +22,7 @@
 ## 🚀 Getting Started
 
 After installation finishes follow configuration instructions then run `npm run start` to start the bot.
+If you want to setup the Bot on an Ubuntu server you can follow the instructions in [UbuntuServerSetup.md](UbuntuServerSetup.md)
 
 ## ⚙️ Configuration
 

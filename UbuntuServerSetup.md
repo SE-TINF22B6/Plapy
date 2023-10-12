@@ -3,6 +3,7 @@
 ## Table of Contents
 1. [Adding a new admin User](#new-user)
 2. [Downloading an uptodate version of NodeJS](#nodejs)
+3. [Clone the repo](#clone-repo)
 3. [Installing PostgreSQL](#postgresql)
 4. [Installing PM2](#pm2)
 5. [Seting up the PM2](#pm2-config)
@@ -46,6 +47,24 @@ sudo apt-get install nodejs -y
 ```bash
 sudo yum install https://rpm.nodesource.com/pub_20.x/nodistro/repo/nodesource-release-nodistro-1.noarch.rpm -y
 sudo yum install nodejs -y --setopt=nodesource-nodejs.module_hotfixes=1
+```
+## Clone the repo <a name="clone-repo"></a>
+1. Install Git
+```bash
+sudo apt install git -y
+```
+2. Clone the repo
+```bash
+git clone https://github.com/SE-TINF22B6/Plapy.git
+```
+3. Enter your GitHub credentials (You have to generate a token for this)
+3. Change into the repo directory
+```bash
+cd Plapy
+```
+4. Install the dependencies
+```bash
+npm install
 ```
 
 ## Installing PostgreSQL <a name="postgresql"></a>
