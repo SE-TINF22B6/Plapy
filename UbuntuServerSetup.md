@@ -93,16 +93,7 @@ module.exports = {
 };
 ```
 4. Save and exit the file
-5. Open the package.json file
-```bash
-nano package.json
-```
-6. Add the following to the file in the scripts section
-```json
-"scripts": {
-    "start": "pm2 start pm2.config.js"
-  },
-```
+
 5. Start the app
 ```bash
 pm2 start pm2.config.js
