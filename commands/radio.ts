@@ -25,7 +25,6 @@ export default {
     PermissionsBitField.Flags.ManageMessages
   ],
   async execute(interaction: ChatInputCommandInteraction, input: string) {
-
     let argSongName = interaction.options.getString("song");
     if (!argSongName) argSongName = input;
 
