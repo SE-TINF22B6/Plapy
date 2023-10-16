@@ -4,7 +4,7 @@ import { bot } from "../index";
 import { MusicQueue } from "../structs/MusicQueue";
 import { Song } from "../structs/Song";
 import { i18n } from "../utils/i18n";
-import { playlistPattern } from "../utils/patterns";
+import { playlistPattern  } from "../utils/patterns";
 import YouTube from "youtube-sr";
 
 export default {
