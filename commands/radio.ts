@@ -7,13 +7,16 @@ import { i18n } from "../utils/i18n";
 import { playlistPattern } from "../utils/patterns";
 import YouTube from "youtube-sr";
 
-
 export default {
     data: new SlashCommandBuilder()
-        .setName("radio")
-        .setDescription(i18n.__("play.description"))
-        .addStringOption((option) => option.setName("song").setDescription("The song to base the radio on").setRequired(true))
-        .addStringOption((option) => option.setName("songs").setDescription("Number of radio songs, up to a max of 25").setRequired(true)),
+      .setName("radio")
+      .setDescription(i18n.__("play.description"))
+      .addStringOption((option) =>
+        option.setName("song").setDescription("The song to base the radio on").setRequired(true)
+      )
+      .addStringOption((option) =>
+        option.setName("songs").setDescription("Number of radio songs, up to a max of 25").setRequired(true)
+      ),
     cooldown: 3,
     permissions: [
         PermissionsBitField.Flags.Connect,
@@ -29,22 +32,25 @@ export default {
         const { channel } = guildMember!.voice;
 
         if (!channel)
-            return interaction.reply({ content: i18n.__("play.errorNotChannel"), ephemeral: true }).catch(console.error);
+            return interaction.reply({
+                content: i18n.__("play.errorNotChannel"),
+                ephemeral: true
+            }).catch(console.error);
 
         const queue = bot.queues.get(interaction.guild!.id);
 
         if (queue && channel.id !== queue.connection.joinConfig.channelId)
             return interaction
-                .reply({
-                    content: i18n.__mf("play.errorNotInSameChannel", { user: bot.client.user!.username }),
-                    ephemeral: true
-                })
-                .catch(console.error);
+              .reply({
+                  content: i18n.__mf("play.errorNotInSameChannel", { user: bot.client.user!.username }),
+                  ephemeral: true
+              })
+              .catch(console.error);
 
         if (!argSongName)
             return interaction
-                .reply({ content: i18n.__mf("play.usageReply", { prefix: bot.prefix }), ephemeral: true })
-                .catch(console.error);
+              .reply({ content: i18n.__mf("play.usageReply", { prefix: bot.prefix }), ephemeral: true })
+              .catch(console.error);
 
         const url = argSongName;
 
@@ -67,17 +73,20 @@ export default {
 
             if (error.name == "NoResults")
                 return interaction
-                    .reply({ content: i18n.__mf("play.errorNoResults", { url: `<${url}>` }), ephemeral: true })
-                    .catch(console.error);
+                  .reply({ content: i18n.__mf("play.errorNoResults", { url: `<${url}>` }), ephemeral: true })
+                  .catch(console.error);
 
             if (error.name == "InvalidURL")
                 return interaction
-                    .reply({ content: i18n.__mf("play.errorInvalidURL", { url: `<${url}>` }), ephemeral: true })
-                    .catch(console.error);
+                  .reply({ content: i18n.__mf("play.errorInvalidURL", { url: `<${url}>` }), ephemeral: true })
+                  .catch(console.error);
 
             if (interaction.replied)
                 return await interaction.editReply({ content: i18n.__("common.errorCommand") }).catch(console.error);
-            else return interaction.reply({ content: i18n.__("common.errorCommand"), ephemeral: true }).catch(console.error);
+            else return interaction.reply({
+                content: i18n.__("common.errorCommand"),
+                ephemeral: true
+            }).catch(console.error);
         }
 
         if (queue) {
@@ -85,28 +94,31 @@ export default {
             let songyt = await YouTube.getVideo(song.url);
             let addedSongs = 0;
             let desiredSongs = Number.parseInt(interaction.options.getString("songs")!);
-            if(desiredSongs > 25) {
+            if (desiredSongs > 25) {
                 desiredSongs = 25;
                 (interaction.channel as TextChannel)
-                    .send({ content: `Maximum allowed radio songs are 25` }).catch(console.error);
+                  .send({ content: `Maximum allowed radio songs are 25` })
+                  .catch(console.error);
             }
             while (addedSongs < desiredSongs) {
-                for (const {value} of songyt.videos!.map((value, index) => ({index, value}))) {
-                    if (addedSongs == desiredSongs) break
+                for (const { value } of songyt.videos!.map((value, index) => ({ index, value }))) {
+                    if (addedSongs == desiredSongs) break;
                     queue.enqueue(await Song.from(value.url));
                     addedSongs++;
                     if (interaction.replied)
-                        await interaction.editReply({ content: `Added ${addedSongs} out of  ${desiredSongs} songs` }).catch(console.error);
+                        await interaction
+                          .editReply({ content: `Added ${addedSongs} out of  ${desiredSongs} songs` })
+                          .catch(console.error);
                     else interaction.reply({ content: `Added ${addedSongs} out of  ${desiredSongs} songs` }).catch(console.error);
                 }
-                let length = songyt.videos?.length!
-                let lastSongUrl = songyt.videos?.at(length! - 1)?.url!
-                songyt = await YouTube.getVideo(lastSongUrl)
+                let length = songyt.videos?.length!;
+                let lastSongUrl = songyt.videos?.at(length! - 1)?.url!;
+                songyt = await YouTube.getVideo(lastSongUrl);
             }
             interaction.deleteReply().catch(console.error);
             return (interaction.channel as TextChannel)
-                .send({content: `${song.title} and ${songyt.videos?.length} matching songs have been added to queue`})
-                .catch(console.error);
+              .send({ content: `${song.title} and ${songyt.videos?.length} matching songs have been added to queue` })
+              .catch(console.error);
         }
 
         const newQueue = new MusicQueue({
@@ -125,27 +137,30 @@ export default {
         let songyt = await YouTube.getVideo(song.url);
         let addedSongs = 0;
         let desiredSongs = Number.parseInt(interaction.options.getString("songs")!);
-        if(desiredSongs > 25) {
+        if (desiredSongs > 25) {
             desiredSongs = 25;
-            (interaction.channel as TextChannel)
-                .send({ content: `Maximum allowed radio songs are 25` }).catch(console.error);
+            (interaction.channel as TextChannel).send({ content: `Maximum allowed radio songs are 25` }).catch(console.error);
         }
         while (addedSongs < desiredSongs) {
-            for (const {value} of songyt.videos!.map((value, index) => ({index, value}))) {
-                if (addedSongs == desiredSongs) break
+            for (const { value } of songyt.videos!.map((value, index) => ({ index, value }))) {
+                if (addedSongs == desiredSongs) break;
                 newQueue.enqueue(await Song.from(value.url));
                 addedSongs++;
                 if (interaction.replied)
-                    await interaction.editReply({ content: `Added ${addedSongs} out of  ${desiredSongs} songs` }).catch(console.error);
+                    await interaction
+                      .editReply({ content: `Added ${addedSongs} out of  ${desiredSongs} songs` })
+                      .catch(console.error);
                 else interaction.reply({ content: `Added ${addedSongs} out of  ${desiredSongs} songs` }).catch(console.error);
             }
-            let length = songyt.videos?.length!
-            let lastSongUrl = songyt.videos?.at(length! - 1)?.url!
-            songyt = await YouTube.getVideo(lastSongUrl)
+            let length = songyt.videos?.length!;
+            let lastSongUrl = songyt.videos?.at(length! - 1)?.url!;
+            songyt = await YouTube.getVideo(lastSongUrl);
         }
         interaction.deleteReply().catch(console.error);
         return (interaction.channel as TextChannel)
-            .send({content: `${song.title} and ${addedSongs} matching songs have been added to queue. Use /queue to view them`})
-            .catch(console.error);
+          .send({
+              content: `${song.title} and ${addedSongs} matching songs have been added to queue. Use /queue to view them`
+          })
+          .catch(console.error);
     }
 };
