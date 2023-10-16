@@ -9,6 +9,7 @@ import YouTube from "youtube-sr";
 
 export default {
   data: new SlashCommandBuilder()
+
     .setName("radio")
     .setDescription(i18n.__("play.description"))
     .addStringOption((option) =>
