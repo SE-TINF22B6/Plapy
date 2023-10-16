@@ -123,6 +123,16 @@ export class MusicQueue {
     this.processQueue();
   }
 
+  public playNext(...songs: Song[]) {
+    if (this.waitTimeout !== null) clearTimeout(this.waitTimeout);
+    this.waitTimeout = null;
+    this.stopped = false;
+    songs.forEach((song) => {
+      this.songs.splice(1, 0, song);
+    });
+    this.processQueue();
+  }
+
   public stop() {
     if (this.stopped) return;
 
