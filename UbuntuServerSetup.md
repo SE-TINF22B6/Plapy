@@ -75,30 +75,13 @@ sudo npm install pm2@latest -g
 pm2 startup systemd
 ```
 
-## Seting up PM2 <a name="pm2-config"></a>
-
-2. Create and edit the pm2.config.js file
-```bash
-nano pm2.config.js
-```
-3. Add the following to the file
-```js
-module.exports = {
-  apps: [
-    {
-      name: 'My Application',
-      script: './dist/index.js',
-    },
-  ],
-};
-```
-4. Save and exit the file
+## Starting up PM2 <a name="pm2-config"></a>
 
 5. Start the app
 ```bash
 pm2 start pm2.config.js
 ```
-6. Save the PM2 config
+6. Save the PM2 processes for autostart
 ```bash
 pm2 save
 ```
