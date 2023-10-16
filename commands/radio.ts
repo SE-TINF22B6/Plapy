@@ -1,10 +1,10 @@
-import { DiscordGatewayAdapterCreator, joinVoiceChannel } from "@discordjs/voice";
-import { ChatInputCommandInteraction, PermissionsBitField, SlashCommandBuilder, TextChannel } from "discord.js";
-import { bot } from "../index";
-import { MusicQueue } from "../structs/MusicQueue";
-import { Song } from "../structs/Song";
-import { i18n } from "../utils/i18n";
-import { playlistPattern } from "../utils/patterns";
+import {DiscordGatewayAdapterCreator, joinVoiceChannel} from "@discordjs/voice";
+import {ChatInputCommandInteraction, PermissionsBitField, SlashCommandBuilder, TextChannel} from "discord.js";
+import {bot} from "../index";
+import {MusicQueue} from "../structs/MusicQueue";
+import {Song} from "../structs/Song";
+import {i18n} from "../utils/i18n";
+import {playlistPattern} from "../utils/patterns";
 import YouTube from "youtube-sr";
 
 
@@ -150,20 +150,19 @@ export default {
     },
 
     buildProgressBar: function(addedSongs: number, desiredSongs: number): string {
+        //determines the Bar length and the chars the bar should be made of
+        let BAR_LOADED = "⬜";
+        let BAR_NOTLOADED = "⬛";
+        let BAR_LENGTH = 40
 
-        var BAR_LENGTH: number = 50
-        let processed : number = addedSongs * BAR_LENGTH/desiredSongs;
-        let x: string = "progress:[";
-        for(let i = processed; i> 0; i--){
-            x += "⬜";
+        //defines how much of the bar should be filled.
+        let bar_added = addedSongs * BAR_LENGTH/desiredSongs;
+
+        let bar = "";
+        for(let i = BAR_LENGTH; i> 0; i--){
+            bar += bar_added>0?BAR_LOADED:BAR_NOTLOADED;
+            bar_added--;
         }
-
-        for(let i = BAR_LENGTH - processed; i> 0; i--){
-            x += "⬛";
-        }
-
-        x += "] - "
-        x += "[" + addedSongs + "/" + desiredSongs + "]";
-        return x;
+        return `[${bar}] - [${addedSongs}/${desiredSongs}]`;
     }
 };
