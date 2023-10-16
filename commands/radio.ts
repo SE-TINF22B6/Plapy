@@ -96,8 +96,8 @@ export default {
                     queue.enqueue(await Song.from(value.url));
                     addedSongs++;
                     if (interaction.replied)
-                        await interaction.editReply({ content: `Added ${addedSongs} out of  ${desiredSongs} songs` }).catch(console.error);
-                    else interaction.reply({ content: `Added ${addedSongs} out of  ${desiredSongs} songs` }).catch(console.error);
+                        await interaction.editReply({ content: this.buildProgressBar(addedSongs, desiredSongs) }).catch(console.error);
+                    else interaction.reply({ content: this.buildProgressBar(addedSongs, desiredSongs) }).catch(console.error);
                 }
                 let length = songyt.videos?.length!
                 let lastSongUrl = songyt.videos?.at(length! - 1)?.url!
@@ -136,8 +136,8 @@ export default {
                 newQueue.enqueue(await Song.from(value.url));
                 addedSongs++;
                 if (interaction.replied)
-                    await interaction.editReply({ content: `Added ${addedSongs} out of  ${desiredSongs} songs` }).catch(console.error);
-                else interaction.reply({ content: `Added ${addedSongs} out of  ${desiredSongs} songs` }).catch(console.error);
+                    await interaction.editReply({ content: this.buildProgressBar(addedSongs, desiredSongs) }).catch(console.error);
+                else interaction.reply({ content: this.buildProgressBar(addedSongs, desiredSongs) }).catch(console.error);
             }
             let length = songyt.videos?.length!
             let lastSongUrl = songyt.videos?.at(length! - 1)?.url!
@@ -147,5 +147,23 @@ export default {
         return (interaction.channel as TextChannel)
             .send({content: `${song.title} and ${addedSongs} matching songs have been added to queue. Use /queue to view them`})
             .catch(console.error);
+    },
+
+    buildProgressBar: function(addedSongs: number, desiredSongs: number): string {
+
+        var BAR_LENGTH: number = 50
+        let processed : number = addedSongs * BAR_LENGTH/desiredSongs;
+        let x: string = "progress:[";
+        for(let i = processed; i> 0; i--){
+            x += "⬜";
+        }
+
+        for(let i = BAR_LENGTH - processed; i> 0; i--){
+            x += "⬛";
+        }
+
+        x += "] - "
+        x += "[" + addedSongs + "/" + desiredSongs + "]";
+        return x;
     }
 };
