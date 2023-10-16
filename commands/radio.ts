@@ -158,6 +158,7 @@ export default {
       .catch(console.error);
   },
 
+
   buildProgressBar: function (addedSongs: number, desiredSongs: number): string {
     //determines the Bar length and the chars the bar should be made of
     let BAR_LOADED = "⬜";
