@@ -12,6 +12,5 @@ CREATE TABLE Playlist (
                           id SERIAL PRIMARY KEY,
                           name VARCHAR(255) NOT NULL,
                           description TEXT,
-                          songs INT[] NOT NULL,
-                          FOREIGN KEY (songs) REFERENCES Song(id)
+                          songs INT[]
 );
