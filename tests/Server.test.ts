@@ -2,7 +2,7 @@ import Server from "../structs/Server";
 
 describe("Test the API server", () => {
   jest.useFakeTimers();
-  const server = new Server(3000);
+  //const server = new Server(3000);
 
   test("empty string should result in zero", () => {
     let settings = {
