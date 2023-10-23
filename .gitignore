@@ -64,3 +64,4 @@ typings/
 
 # Temp ignore 
 config.json
+/databaseConfig.json
