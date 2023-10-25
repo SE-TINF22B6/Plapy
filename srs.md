@@ -37,6 +37,9 @@ The bot responds with all playlists saved to the server \
 ![image](https://github.com/SE-TINF22B6/Plapy/assets/81536709/640c9913-89f2-431d-9d11-b848ab0f95ca) \
 
 > - **UML behavior diagrams** and necessary text specification
+>
+> - ![myImage-2](https://github.com/SE-TINF22B6/Plapy/assets/57218126/2d1702e8-9c68-4f6f-a32d-fbb7387214ca)
+
 > - **Preconditions**
 > - Functional Database
 > - Interet Access
