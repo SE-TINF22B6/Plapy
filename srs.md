@@ -3,24 +3,16 @@
 > This template is a simplified version based on the documentation templates from IBM Rational Unified Process (RUP).
 ### 1. Introduction
 #### 1.1 Overview
-> What are the selling points of your application?
+> Plapy is a music Bot used for playing Youtube or Soundcloud Videos as mp3 over Discord. It supports a lot of additional features to save, automatically create and modify custom playlists.
 #### 1.2 Scope
-> What is covered (not covered) in this document? Is it for your whole system or a subsystem? Does it cover both functional and nonfunctional requirements? (Will you seperate some of requirements into another document?)
-#### 1.3 Definitions, Acronyms and Abbreviations
-> Definitions of all terms, acronyms, and abbreviations required to properly interpret this document.
-#### 1.4 References
-> A complete list of all documents referenced. Each document should be identified by title, date, and publishing organization. You can also insert hyperlinks, in order to open the references conviniently.
+> Thius Document gives a short summary  on why and how to use Plapy. Technichal Information about how to program and install Plapy are described in the Readme.md file
 
 ### 2. Functional requirements
->  This section contains all the software requirements to a level of detail sufficient to enable designers to design a system to satisfy those requirements and testers to test that the system satisfies those requirements.  
->  This section is typically organized by feature, but alternative organization methods may also be appropriate, for example, organization by user or organization by subsystem.
-
-> [!NOTE]
-> You can insert links to your UML diagrams and user stories, or labels of user stories into this document.
+>  A computer, tablet or smartphone or any simular device capable of running the discord Application
+> A server where you have andministrator permissions to invite the Bot
 
 #### 2.1 Overview 
-> A brief description of the functionality of your application.  
-> Include one or more **UML use case** diagram(s) and necessary description to specify the major use cases of your application.
+> The Bot works, once invited to the server, with a simple call and response principle. There are Bot commands that start with a "/" and are followed by a command (for example /add) and a shown number of parameters. These Commands are seen when either typing /help or just typing "/" and using the discord autocomplete feature. Alternatively, you can view the bots description on discord for a whole overview of all commands.
 
 #### 2.2 Name of Feature 1 / Use Case 1
 > Specify this feature / use case by:
