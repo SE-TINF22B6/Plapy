@@ -5,7 +5,7 @@
 #### 1.1 Overview
 > Plapy is a music Bot used for playing Youtube or Soundcloud Videos as mp3 over Discord. It supports a lot of additional features to save, automatically create and modify custom playlists.
 #### 1.2 Scope
-> Thius Document gives a short summary  on why and how to use Plapy. Technichal Information about how to program and install Plapy are described in the Readme.md file
+> This Document gives a short summary  on why and how to use Plapy. Technichal Information about how to program and install Plapy are described in the Readme.md file
 
 ### 2. Functional requirements
 >  A computer, tablet or smartphone or any simular device capable of running the discord Application
@@ -43,12 +43,10 @@ The bot responds with all playlists saved to the server
 
 ### 3. Nonfunctional requirements
 
-> [!IMPORTANT]  
-> It is not necessary to cover all of the following categories, but focus on what your project will implement.  
-> If some nonfunctional requirements are described as user stories in your backlog, add their **links** in this section, or any information to guide the reader find them in your backlog, such as a **label** of those relevant user stories.
-
-> Categories: Usability, Reliability, Performance, Efficiency, Integrity, Maintainability, Flexibility, Testability, Reusability, Security.  
+> Performance: Do not Share your Bots invite Link public. If the Bot joins too many servers, the performance of your Bot might suffer
+> Security: Never push Database Access Files to the Server, but always insert push database access directly to the server. Otherwise, anyone with access to your Repository can modify your Database
 
 
 ### 4. Technical constraints
-> Specify any major constraints, assumptions or dependencies, e.g., any restrictions about which type of server to use, which type of open source license must be complied, etc. 
+> node.js version 9.5.1 or higher
+> A server capable of running on at least 8GB ram (less might cause problems with the /radio command due to timeout with the YouTube Api - rest should still work with less)
