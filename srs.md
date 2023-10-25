@@ -17,18 +17,17 @@
 #### 2.2 Playlist Manager
 > Specify this feature / use case by:
 > - Relevant **user stories (their links or labels)**
-> - **UI mockups**
-The user can add the currently playing song to a Playlist with the /add command
-![image](https://github.com/SE-TINF22B6/Plapy/assets/81536709/10ea1a59-1a24-4241-93cc-2c34bfa0d8e0)
-The bot then responds with the songs that are in the playlist
-![image](https://github.com/SE-TINF22B6/Plapy/assets/81536709/0bfdb307-7eba-4a25-9c35-ef68785e5cec)
-It is also possible to add a song via search to the playlist
-![image](https://github.com/SE-TINF22B6/Plapy/assets/81536709/affb2cc7-f47e-4c7a-bbba-e87c2a0384af)
-
-The user can load a playlist with a multiselect 
-![image](https://github.com/SE-TINF22B6/Plapy/assets/81536709/599ae2a2-8bc6-4247-ab83-8bf361a7bdd7)
-The bot responds with all playlists saved to the server
-![image](https://github.com/SE-TINF22B6/Plapy/assets/81536709/640c9913-89f2-431d-9d11-b848ab0f95ca)
+> - **UI mockups** \
+The user can add the currently playing song to a Playlist with the /add command \
+![image](https://github.com/SE-TINF22B6/Plapy/assets/81536709/10ea1a59-1a24-4241-93cc-2c34bfa0d8e0) \
+The bot then responds with the songs that are in the playlist \
+![image](https://github.com/SE-TINF22B6/Plapy/assets/81536709/0bfdb307-7eba-4a25-9c35-ef68785e5cec) \
+It is also possible to add a song via search to the playlist\
+![image](https://github.com/SE-TINF22B6/Plapy/assets/81536709/affb2cc7-f47e-4c7a-bbba-e87c2a0384af) \
+The user can load a playlist with a multiselect \
+![image](https://github.com/SE-TINF22B6/Plapy/assets/81536709/599ae2a2-8bc6-4247-ab83-8bf361a7bdd7) \
+The bot responds with all playlists saved to the server \
+![image](https://github.com/SE-TINF22B6/Plapy/assets/81536709/640c9913-89f2-431d-9d11-b848ab0f95ca) \
 
 
 
