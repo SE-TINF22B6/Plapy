@@ -12,6 +12,7 @@ import { i18n } from "../utils/i18n";
 import { canModifyQueue } from "../utils/queue";
 import { SavedPlaylist } from "../structs/SavedPlaylist";
 import { Song } from "../structs/Song";
+import { getRepository } from "typeorm";
 
 export default {
   data: new SlashCommandBuilder()
@@ -38,21 +39,25 @@ export default {
     }
 
     let playlist: SavedPlaylist;
+    let song = queue.songs.at(0);
 
     if (savedPlaylists.get(guildId + interaction.options.getString("playlist"))) {
-      let song = queue.songs.at(0);
       playlist = savedPlaylists.get(guildId + interaction.options.getString("playlist"))!;
-      playlist?.songs.push(song!);
+      if(!playlist.songs.includes(song!)){
+        playlist?.songs.push(song!);}
     } else {
       let song = queue.songs.at(0);
       let title = interaction.options.getString("playlist") ?? "";
       playlist = new SavedPlaylist({
         songs: [song!],
-        title: title,
-        guildId: guildId
+        title: title
       });
       savedPlaylists.set(guildId + interaction.options.getString("playlist"), playlist);
     }
+    const songRepository = getRepository(Song);
+    songRepository.save(song!);
+    const playlistRepository = getRepository(SavedPlaylist);
+    playlistRepository.save(playlist!);
 
     if (!queue || !queue.songs.length) return interaction.reply({ content: i18n.__("queue.errorNotQueue") });
 

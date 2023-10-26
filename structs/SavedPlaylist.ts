@@ -1,18 +1,34 @@
 import { Song } from "./Song";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from "typeorm";
 
-export interface PlaylistData {
-  songs: Song[];
-  title: string;
-  guildId: string;
+@Entity({name: "playlist"})
+export class SavedPlaylist {
+  @PrimaryGeneratedColumn({name: "id"})
+  id: number;
+
+  @ManyToMany(() => Song)
+  @JoinTable({name: "playlist_songs"})
+  public songs: Song[];
+
+  @Column({type : "text", name: "name"})
+  public title: string = "";
+
+  @Column({type : "text", name: "description"})
+  description: string = "";
+
+  constructor(data?: Partial<PlaylistData>) {
+    if (data) {
+      if(data.songs) {
+        this.songs = data.songs!;
+      }
+      this.title = data.title!;
+    }
+  }
 }
 
-export class SavedPlaylist {
-  public songs: Song[];
-  public title: string;
-  public guildId: string;
-  constructor({ songs, title, guildId }: PlaylistData) {
-    this.songs = songs;
-    this.title = title;
-    this.guildId = guildId;
-  }
+export interface PlaylistData {
+  id: number;
+  songs: Song[];
+  title: string;
+  description: string;
 }

@@ -1,9 +1,9 @@
 import youtube, { Playlist as YoutubePlaylist } from "youtube-sr";
 import { config } from "../utils/config";
 import { Song } from "./Song";
+import { Column, Entity, JoinTable, ManyToMany } from "typeorm";
 
 const pattern = /^.*(youtu.be\/|list=)([^#\&\?]*).*/i;
-
 export class Playlist {
   public data: YoutubePlaylist;
   public videos: Song[];
