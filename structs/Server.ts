@@ -3,21 +3,18 @@ import express from "express";
 import { bot } from "../index";
 import { i18n } from "../utils/i18n";
 import { canModifyQueue } from "../utils/queue";
-import { ApplicationCommand, ChatInputCommandInteraction, CommandInteraction, TextChannel } from "discord.js";
+import { TextChannel } from "discord.js";
 import { config } from "../utils/config";
-import { playlistPattern } from "../utils/patterns";
 import { Song } from "./Song";
-import { MusicQueue } from "./MusicQueue";
-import { DiscordGatewayAdapterCreator, joinVoiceChannel } from "@discordjs/voice";
 
 export default class Server {
   public constructor(port: number) {
     const app = express();
 
     app.post("/stop", (req: Request, res: Response) => {
-      let guildId = req.headers.guildid?.toString()!;
-      let userId = req.headers.userid?.toString()!;
-      let channelId = req.headers.channelid?.toString()!;
+      const guildId = req.headers.guildid?.toString()!;
+      const userId = req.headers.userid?.toString()!;
+      const channelId = req.headers.channelid?.toString()!;
       const channel: TextChannel = <TextChannel>bot.client.channels.cache.get(channelId);
       const queue = bot.queues.get(guildId);
       const guildMemer = bot.client.guilds.cache.get(guildId)?.members.cache.get(userId);
