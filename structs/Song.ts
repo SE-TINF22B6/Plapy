@@ -1,9 +1,9 @@
 import { AudioResource, createAudioResource, StreamType } from "@discordjs/voice";
 import youtube from "youtube-sr";
 import { i18n } from "../utils/i18n";
-import { videoPattern, isURL } from "../utils/patterns";
-
+import { videoPattern, isURL , scRegex} from "../utils/patterns";
 const { stream, video_basic_info } = require("play-dl");
+const sc = require('play-dl')
 
 export interface SongData {
   url: string;
@@ -24,6 +24,7 @@ export class Song {
 
   public static async from(url: string = "", search: string = "") {
     const isYoutubeUrl = videoPattern.test(url);
+    const isSoundcloudUrl = scRegex.test(url)
 
     let songInfo;
 
