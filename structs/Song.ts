@@ -1,10 +1,9 @@
 import { AudioResource, createAudioResource, StreamType } from "@discordjs/voice";
 import youtube from "youtube-sr";
 import { i18n } from "../utils/i18n";
-import { videoPattern, isURL, scRegex } from "../utils/patterns";
+import { videoPattern, isURL } from "../utils/patterns";
 
 const { stream, video_basic_info } = require("play-dl");
-const sc = require('play-dl')
 
 export interface SongData {
   url: string;
@@ -25,7 +24,6 @@ export class Song {
 
   public static async from(url: string = "", search: string = "") {
     const isYoutubeUrl = videoPattern.test(url);
-    const isSoundcloudUrl = scRegex.test(url);
 
     let songInfo;
 
@@ -52,7 +50,6 @@ export class Song {
         title: songInfo.name,
         duration: songInfo.durationInSec
       });
-
     } else {
       const result = await youtube.searchOne(search);
 
@@ -85,13 +82,9 @@ export class Song {
 
     const source = this.url.includes("youtube") ? "youtube" : "soundcloud";
 
-    if(source === "youtube") {
-      playStream = await stream(this.url, {quality: 2, discordPlayerCompatibility: true});
-    } else if (source === "soundcloud") {
-      playStream = await sc.stream(this.url, {quality: 2, discordPlayerCompatibility: true});
+    if (source === "youtube") {
+      playStream = await stream(this.url);
     }
-
-
 
     if (!stream) return;
 

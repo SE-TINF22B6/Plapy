@@ -4,7 +4,7 @@ import { bot } from "../index";
 import { MusicQueue } from "../structs/MusicQueue";
 import { Song } from "../structs/Song";
 import { i18n } from "../utils/i18n";
-import { playlistPattern } from "../utils/patterns";
+import { playlistPattern  } from "../utils/patterns";
 import YouTube from "youtube-sr";
 
 export default {
@@ -32,12 +32,7 @@ export default {
     const { channel } = guildMember!.voice;
 
     if (!channel)
-      return interaction
-        .reply({
-          content: i18n.__("play.errorNotChannel"),
-          ephemeral: true
-        })
-        .catch(console.error);
+      return interaction.reply({ content: i18n.__("play.errorNotChannel"), ephemeral: true }).catch(console.error);
 
     const queue = bot.queues.get(interaction.guild!.id);
 
@@ -85,13 +80,7 @@ export default {
 
       if (interaction.replied)
         return await interaction.editReply({ content: i18n.__("common.errorCommand") }).catch(console.error);
-      else
-        return interaction
-          .reply({
-            content: i18n.__("common.errorCommand"),
-            ephemeral: true
-          })
-          .catch(console.error);
+      else return interaction.reply({ content: i18n.__("common.errorCommand"), ephemeral: true }).catch(console.error);
     }
 
     if (queue) {
@@ -112,9 +101,9 @@ export default {
           addedSongs++;
           if (interaction.replied)
             await interaction
-              .editReply({ content: `Added ${addedSongs} out of  ${desiredSongs} songs` })
+              .editReply({ content: this.buildProgressBar(addedSongs, desiredSongs) })
               .catch(console.error);
-          else interaction.reply({ content: `Added ${addedSongs} out of  ${desiredSongs} songs` }).catch(console.error);
+          else interaction.reply({ content: this.buildProgressBar(addedSongs, desiredSongs) }).catch(console.error);
         }
         let length = songyt.videos?.length!;
         let lastSongUrl = songyt.videos?.at(length! - 1)?.url!;
@@ -153,9 +142,9 @@ export default {
         addedSongs++;
         if (interaction.replied)
           await interaction
-            .editReply({ content: `Added ${addedSongs} out of  ${desiredSongs} songs` })
+            .editReply({ content: this.buildProgressBar(addedSongs, desiredSongs) })
             .catch(console.error);
-        else interaction.reply({ content: `Added ${addedSongs} out of  ${desiredSongs} songs` }).catch(console.error);
+        else interaction.reply({ content: this.buildProgressBar(addedSongs, desiredSongs) }).catch(console.error);
       }
       let length = songyt.videos?.length!;
       let lastSongUrl = songyt.videos?.at(length! - 1)?.url!;
@@ -167,5 +156,22 @@ export default {
         content: `${song.title} and ${addedSongs} matching songs have been added to queue. Use /queue to view them`
       })
       .catch(console.error);
+  },
+
+  buildProgressBar: function (addedSongs: number, desiredSongs: number): string {
+    //determines the Bar length and the chars the bar should be made of
+    let BAR_LOADED = "⬜";
+    let BAR_NOTLOADED = "⬛";
+    let BAR_LENGTH = 40;
+
+    //defines how much of the bar should be filled.
+    let bar_added = (addedSongs * BAR_LENGTH) / desiredSongs;
+
+    let bar = "";
+    for (let i = BAR_LENGTH; i > 0; i--) {
+      bar += bar_added > 0 ? BAR_LOADED : BAR_NOTLOADED;
+      bar_added--;
+    }
+    return `[${bar}] - [${addedSongs}/${desiredSongs}]`;
   }
 };
