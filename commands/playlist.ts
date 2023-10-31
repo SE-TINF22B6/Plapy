@@ -52,6 +52,7 @@ export default {
 
     try {
       playlist = await Playlist.from(argSongName!.split(" ")[0], argSongName!);
+
     } catch (error) {
       console.error(error);
 
@@ -64,7 +65,7 @@ export default {
     }
 
     if (queue) {
-      queue.songs.push(...playlist.videos);
+      queue.songs.push(...playlist.songs);
     } else {
       const newQueue = new MusicQueue({
         interaction,
@@ -77,18 +78,18 @@ export default {
       });
 
       bot.queues.set(interaction.guild!.id, newQueue);
-      newQueue.enqueue(...playlist.videos);
+      newQueue.enqueue(...playlist.songs);
     }
 
     let playlistEmbed = new EmbedBuilder()
-      .setTitle(`${playlist.data.title}`)
+      .setTitle(`${playlist.name}`)
       .setDescription(
-        playlist.videos
+        playlist.songs
           .map((song: Song, index: number) => `${index + 1}. ${song.title}`)
           .join("\n")
           .slice(0, 4095)
       )
-      .setURL(playlist.data.url!)
+      .setURL(playlist.url!)
       .setColor("#F8AA2A")
       .setTimestamp();
 

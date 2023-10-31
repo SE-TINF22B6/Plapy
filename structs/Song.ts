@@ -48,7 +48,7 @@ export class Song {
       songInfo = await sc.soundcloud(url);
 
       return new this({
-        url: songInfo.url,
+        url: songInfo.permalink,
         title: songInfo.name,
         duration: songInfo.durationInSec
       });
