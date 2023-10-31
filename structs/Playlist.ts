@@ -93,8 +93,6 @@ export class Playlist {
           })
 
     }
-
-    console.log(this.songs)
   }
 }
 
