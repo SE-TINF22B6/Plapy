@@ -56,3 +56,13 @@ The bot responds with all playlists saved to the server \
 
 ### 4. Technical constraints
 > node.js version 16.11.0 or higher
+
+
+## Activity diagrams
+ - User types "/play"
+   ![play drawio](https://github.com/SE-TINF22B6/Plapy/assets/123726628/4aac3e75-886a-4e1f-bb34-9c8e68c42775)
+ - User types "/radio"
+   ![radio drawio](https://github.com/SE-TINF22B6/Plapy/assets/123726628/3501dd3e-455c-4b6e-9fe6-3963a5e0c57c)
+ - User types "/add"
+   ![add drawio](https://github.com/SE-TINF22B6/Plapy/assets/123726628/cea2ee87-7f4e-4a8c-82b3-c99d310c4270)
+
