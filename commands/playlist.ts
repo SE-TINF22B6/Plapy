@@ -11,6 +11,7 @@ import { MusicQueue } from "../structs/MusicQueue";
 import { Playlist } from "../structs/Playlist";
 import { Song } from "../structs/Song";
 import { i18n } from "../utils/i18n";
+import { scShareRegex } from "../utils/patterns";
 
 export default {
   data: new SlashCommandBuilder()
@@ -47,6 +48,10 @@ export default {
             ephemeral: true
           })
           .catch(console.error);
+
+    if (scShareRegex.test(interaction.options.getString("playlist")!)) {
+      return interaction.editReply("❌ Soundcloud links generated using the share option are not supported. Please copy the link from the searchbar").catch(console.error);
+    }
 
     let playlist;
 

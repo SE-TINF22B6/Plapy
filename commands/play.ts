@@ -4,7 +4,7 @@ import { bot } from "../index";
 import { MusicQueue } from "../structs/MusicQueue";
 import { Song } from "../structs/Song";
 import { i18n } from "../utils/i18n";
-import { playlistPattern } from "../utils/patterns";
+import { playlistPattern, scShareRegex } from "../utils/patterns";
 
 export default {
   data: new SlashCommandBuilder()
@@ -53,6 +53,10 @@ export default {
       await interaction.editReply("🔗 Link is playlist").catch(console.error);
 
       return bot.slashCommandsMap.get("playlist")!.execute(interaction, "song");
+    }
+
+    if (scShareRegex.test(url)) {
+      return interaction.editReply("❌ Soundcloud links generated using the share option are not supported. Please copy the link from the searchbar").catch(console.error);
     }
 
     let song;
