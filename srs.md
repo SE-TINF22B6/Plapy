@@ -95,3 +95,8 @@ Play a Playlist:
 
 ### 4. Technical constraints
 > node.js version 16.11.0 or higher
+
+
+### 5. Sequence Diagramms
+![Sequenzdiagramm_Bot-login drawio](https://github.com/SE-TINF22B6/Plapy/assets/123726628/1ba93f8e-1469-4b4a-b5c4-e673f294a700)
+
