@@ -19,8 +19,9 @@
 #### 2.1 Overview 
 > The Bot works, once invited to the server, with a simple call and response principle. There are Bot commands that start with a "/" and are followed by a command (for example /add) and a shown number of parameters. These Commands are seen when either typing /help or just typing "/" and using the discord autocomplete feature. Alternatively, you can view the bots description on discord for a whole overview of all commands.
 
+#### 2.2 Use Cases
 
-#### 2.2 Playlist Manager
+##### 2.2.1 Playlist Manager
 > Specify this feature / use case by:
 > - Relevant **user stories (their links or labels)**
 > - https://github.com/SE-TINF22B6/Plapy/issues/26
@@ -49,6 +50,44 @@ The bot responds with all playlists saved to the server \
 > - Song added to Playlist
 > - **Estimated efforts high**
 
+##### 2.2.2 "/play"-command
+> Specify this feature / use case by:
+> - Relevant **user stories (their links or labels)**
+> - https://github.com/SE-TINF22B6/Plapy/issues/35
+> - **UI mockups** \
+Play normal Song:
+
+![Play_UI](https://github.com/SE-TINF22B6/Plapy/assets/123726628/44538b7f-ccde-4e76-a1f8-3402ba847ac8)
+Play a Playlist:
+
+![Playlist_UI](https://github.com/SE-TINF22B6/Plapy/assets/123726628/66ee50b4-8d47-4c24-a372-ff49af4463db)
+> - **UML behavior diagrams** and necessary text specification
+![play drawio](https://github.com/SE-TINF22B6/Plapy/assets/123726628/134e91fa-8e00-409a-928c-d8c4772c6b14)
+
+##### 2.2.3 "/add"-command
+> Specify this feature / use case by:
+> - Relevant **user stories (their links or labels)**
+> - https://github.com/SE-TINF22B6/Plapy/issues/7
+> - https://github.com/SE-TINF22B6/Plapy/issues/46
+> - **UI mockups** \
+![add_UI](https://github.com/SE-TINF22B6/Plapy/assets/123726628/623ed087-c987-4054-a98f-82db12d82389)
+
+> - **UML behavior diagrams** and necessary text specification
+![add drawio](https://github.com/SE-TINF22B6/Plapy/assets/123726628/e7bd45d4-dafd-4cd0-ac09-27decdd969ed)
+
+
+##### 2.2.4 "/radio"-command
+> Specify this feature / use case by:
+> - Relevant **user stories (their links or labels)**
+> - https://github.com/SE-TINF22B6/Plapy/issues/21
+> - https://github.com/SE-TINF22B6/Plapy/issues/34
+> - **UI mockups** \
+![radio_UI](https://github.com/SE-TINF22B6/Plapy/assets/123726628/554c81d1-6aab-4042-b50a-5aede7088f35)
+
+> - **UML behavior diagrams** and necessary text specification
+![radio drawio](https://github.com/SE-TINF22B6/Plapy/assets/123726628/d5a956d1-e3c9-4c33-b0fe-a6b5d23ad267)
+
+
 ### 3. Nonfunctional requirements
 > Performance: Do not Share your Bots invite Link public. If the Bot joins too many servers, the performance of your Bot might suffer
 > Security: Never push Database Access Files to the Server, but always insert push database access directly to the server. Otherwise, anyone with access to your Repository can modify your Database
@@ -58,10 +97,5 @@ The bot responds with all playlists saved to the server \
 > node.js version 16.11.0 or higher
 
 
-## Activity diagrams
- - User types "/play"
-   ![play drawio](https://github.com/SE-TINF22B6/Plapy/assets/123726628/4aac3e75-886a-4e1f-bb34-9c8e68c42775)
- - User types "/radio"
-   ![radio drawio](https://github.com/SE-TINF22B6/Plapy/assets/123726628/3501dd3e-455c-4b6e-9fe6-3963a5e0c57c)
- - User types "/add"
-   ![add drawio](https://github.com/SE-TINF22B6/Plapy/assets/123726628/cea2ee87-7f4e-4a8c-82b3-c99d310c4270)
+### 5. Sequence Diagramms
+![Sequenzdiagramm_Bot-login drawio](https://github.com/SE-TINF22B6/Plapy/assets/123726628/1ba93f8e-1469-4b4a-b5c4-e673f294a700)
