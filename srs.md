@@ -37,9 +37,10 @@ The user can load a playlist with a multiselect \
 The bot responds with all playlists saved to the server \
 ![image](https://github.com/SE-TINF22B6/Plapy/assets/81536709/640c9913-89f2-431d-9d11-b848ab0f95ca) \
 
-> - **UML behavior diagrams** and necessary text specification
+> - **UML use case diagram**
 >
-> - ![myImage-2](https://github.com/SE-TINF22B6/Plapy/assets/57218126/2d1702e8-9c68-4f6f-a32d-fbb7387214ca)
+> - ![Use case diagram](https://github.com/SE-TINF22B6/Plapy/assets/75337582/d62fc703-42b9-4298-a953-926ae13ccca5)
+
 
 > - **Preconditions**
 > - Functional Database
@@ -97,5 +98,5 @@ Play a Playlist:
 > node.js version 16.11.0 or higher
 
 
-### 5. Sequence Diagramms
+### 5. Sequence Diagrams
 ![Sequenzdiagramm_Bot-login drawio](https://github.com/SE-TINF22B6/Plapy/assets/123726628/1ba93f8e-1469-4b4a-b5c4-e673f294a700)
