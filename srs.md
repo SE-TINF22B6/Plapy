@@ -72,8 +72,9 @@ Play a Playlist:
 > - **UI mockups** \
 ![add_UI](https://github.com/SE-TINF22B6/Plapy/assets/123726628/623ed087-c987-4054-a98f-82db12d82389)
 
-> - **UML behavior diagrams** and necessary text specification
-![add drawio](https://github.com/SE-TINF22B6/Plapy/assets/123726628/e7bd45d4-dafd-4cd0-ac09-27decdd969ed)
+> - **UML use case diagram** and necessary text specification
+![Use case diagram](https://github.com/SE-TINF22B6/Plapy/assets/75337582/b7c42be8-c700-4a84-9c79-8d0f61d1b4c2)
+
 
 
 ##### 2.2.4 "/radio"-command
