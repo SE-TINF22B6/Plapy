@@ -1,10 +1,11 @@
 import { AudioResource, createAudioResource, StreamType } from "@discordjs/voice";
 import youtube from "youtube-sr";
 import { i18n } from "../utils/i18n";
-import { videoPattern, isURL } from "../utils/patterns";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { videoPattern, isURL, scRegex } from "../utils/patterns";
 
 const { stream, video_basic_info } = require("play-dl");
+const sc = require('play-dl')
 
 export interface SongData {
   url: string;
@@ -36,6 +37,7 @@ export class Song {
   }
   public static async from(url: string = "", search: string = "") {
     const isYoutubeUrl = videoPattern.test(url);
+    const isSoundcloudUrl = scRegex.test(url);
 
     let songInfo;
 
@@ -47,6 +49,22 @@ export class Song {
         title: songInfo.video_details.title,
         duration: parseInt(songInfo.video_details.durationInSec)
       });
+    } else if(isSoundcloudUrl) {
+      await sc.getFreeClientID().then((clientID: string) => {
+        sc.setToken({
+          soundcloud : {
+            client_id : clientID
+          }
+        })
+      })
+      songInfo = await sc.soundcloud(url);
+
+      return new this({
+        url: songInfo.permalink,
+        title: songInfo.name,
+        duration: songInfo.durationInSec
+      });
+
     } else {
       const result = await youtube.searchOne(search);
 
@@ -79,9 +97,13 @@ export class Song {
 
     const source = this.url.includes("youtube") ? "youtube" : "soundcloud";
 
-    if (source === "youtube") {
-      playStream = await stream(this.url);
+    if(source === "youtube") {
+      playStream = await stream(this.url, {quality: 2, discordPlayerCompatibility: true});
+    } else if (source === "soundcloud") {
+      playStream = await sc.stream(this.url, {quality: 2, discordPlayerCompatibility: true});
     }
+
+
 
     if (!stream) return;
 

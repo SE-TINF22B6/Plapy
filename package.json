@@ -5,7 +5,7 @@
   "main": "index.ts",
   "based on": "https://github.com/eritislami/evobot.git",
   "engines": {
-    "node": ">=16.11.0"
+    "node": ">=20.9.0"
   },
   "scripts": {
     "dev": "nodemon index.ts",
@@ -31,7 +31,7 @@
     "soundcloud-downloader": "^0.2.3",
     "string-progressbar": "^1.0.4",
     "typeorm": "^0.3.17",
-    "youtube-sr": "~4.3.0"
+    "youtube-sr": "~4.3.9"
   },
   "devDependencies": {
     "@types/express": "^4.17.18",

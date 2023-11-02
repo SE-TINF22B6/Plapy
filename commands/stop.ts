@@ -7,10 +7,10 @@ export default {
   data: new SlashCommandBuilder().setName("stop").setDescription(i18n.__("stop.description")),
   execute(interaction: ChatInputCommandInteraction) {
     const queue = bot.queues.get(interaction.guild!.id);
-    const guildMemer = interaction.guild!.members.cache.get(interaction.user.id);
+    const guildMember = interaction.guild!.members.cache.get(interaction.user.id);
 
     if (!queue) return interaction.reply(i18n.__("stop.errorNotQueue")).catch(console.error);
-    if (!guildMemer || !canModifyQueue(guildMemer)) return i18n.__("common.errorNotChannel");
+    if (!guildMember || !canModifyQueue(guildMember)) return i18n.__("common.errorNotChannel");
 
     queue.stop();
 
