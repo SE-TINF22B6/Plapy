@@ -76,7 +76,7 @@ export default {
 
     try {
       await queueEmbed.react("⬅️");
-      await queueEmbed.react("⏹");
+      await queueEmbed.react("");
       await queueEmbed.react("➡️");
     } catch (error: any) {
       console.error(error);

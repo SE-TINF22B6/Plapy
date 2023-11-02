@@ -22,6 +22,6 @@ async function fetchPlaylists() {
   const playlistRepository = getManager().getRepository(SavedPlaylist);
   let savedPlaylistsFromDb = await playlistRepository.find();
   for (const playlist of savedPlaylistsFromDb) {
-    bot.savedPlaylists.set(playlist.id.toString(), playlist);
+    bot.savedPlaylists.set(playlist.title, playlist);
   }
 }
