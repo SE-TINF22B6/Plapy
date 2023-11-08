@@ -1,4 +1,4 @@
-# Project Name
+# Plapy
 ## Software Requirements Specification
 > This template is a simplified version based on the documentation templates from IBM Rational Unified Process (RUP).
 ### 1. Introduction
@@ -63,7 +63,7 @@ Play a Playlist:
 
 ![Playlist_UI](https://github.com/SE-TINF22B6/Plapy/assets/123726628/66ee50b4-8d47-4c24-a372-ff49af4463db)
 > - **UML behavior diagrams** and necessary text specification
-![play drawio](https://github.com/SE-TINF22B6/Plapy/assets/123726628/134e91fa-8e00-409a-928c-d8c4772c6b14)
+![play (8) drawio (2)](https://github.com/SE-TINF22B6/Plapy/assets/123726628/e01eb43a-bf24-4eb4-ba2e-79c19131df3f)
 
 ##### 2.2.3 "/add"-command
 > Specify this feature / use case by:
@@ -74,8 +74,7 @@ Play a Playlist:
 ![add_UI](https://github.com/SE-TINF22B6/Plapy/assets/123726628/623ed087-c987-4054-a98f-82db12d82389)
 
 > - **UML behavior diagrams** and necessary text specification
-![add drawio](https://github.com/SE-TINF22B6/Plapy/assets/123726628/e7bd45d4-dafd-4cd0-ac09-27decdd969ed)
-
+![add drawio (2)](https://github.com/SE-TINF22B6/Plapy/assets/123726628/75acd187-819a-406d-ba44-f11756706a99)
 
 ##### 2.2.4 "/radio"-command
 > Specify this feature / use case by:
@@ -86,7 +85,12 @@ Play a Playlist:
 ![radio_UI](https://github.com/SE-TINF22B6/Plapy/assets/123726628/554c81d1-6aab-4042-b50a-5aede7088f35)
 
 > - **UML behavior diagrams** and necessary text specification
-![radio drawio](https://github.com/SE-TINF22B6/Plapy/assets/123726628/d5a956d1-e3c9-4c33-b0fe-a6b5d23ad267)
+![radio drawio (2)](https://github.com/SE-TINF22B6/Plapy/assets/123726628/6e0e0f7e-ed2d-4f30-800f-495150204488)
+
+
+#### 2.3 Communication with other Software
+##### 2.3.1 Communication with discord API
+![Sequenzdiagramm_Bot-login drawio](https://github.com/SE-TINF22B6/Plapy/assets/123726628/1ba93f8e-1469-4b4a-b5c4-e673f294a700)
 
 
 ### 3. Nonfunctional requirements
@@ -98,5 +102,3 @@ Play a Playlist:
 > node.js version 16.11.0 or higher
 
 
-### 5. Sequence Diagrams
-![Sequenzdiagramm_Bot-login drawio](https://github.com/SE-TINF22B6/Plapy/assets/123726628/1ba93f8e-1469-4b4a-b5c4-e673f294a700)
