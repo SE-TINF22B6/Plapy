@@ -170,7 +170,9 @@ export default {
 
     function extractSongTitle(song: Song) {
       let title = song.title
-      title = title.split("(")[0]
+      if(title.includes("(")) {
+        title = title.split("(")[0]
+      }
       if(title.includes("-")) {
         title = title.split("-")[1]
       }
@@ -207,9 +209,9 @@ export default {
 
     function buildProgressBar(addedSongs: number, desiredSongs: number) {
       //determines the Bar length and the chars the bar should be made of
-      let BAR_LOADED = "⬜";
-      let BAR_NOTLOADED = "⬛";
-      let BAR_LENGTH = 40;
+      const BAR_LOADED = "⬜";
+      const BAR_NOTLOADED = "⬛";
+      const BAR_LENGTH = 25;
 
       //defines how much of the bar should be filled.
       let bar_added = (addedSongs * BAR_LENGTH) / desiredSongs;
