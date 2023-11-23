@@ -94,6 +94,19 @@ Play a Playlist:
 
 
 ### 3. Nonfunctional requirements
+
+|Who |Event |Influence |Condition |Action | Measurement |
+|- |- |- |- |- | - |
+|Discord API | Ping to API | System | Runtime | Response from API | Max latency of 300ms|
+|Developer | Design a new command |Design |Design time | Design a new command to the bot | In 3 hour | 
+|Developer | Add a new command |Code |Developement | Add a new command to the bot | In 1 hour | 
+|Developer | Implement command |Code |Developement | Implement the command functionlity | In 8 hours |
+|Developer | Create Pull Request |Code |Developement | Merge PR | Reviewed in <24h |
+|User |Use /play |System |Normal Operation | Song is played | Avg. wait time until playback < 1s |
+|User |Use /help |System |Normal Operation | Help for commands | help covers 100% of commands |
+|User |Use Plapy API |System |Normal Operation | API respondes | Max latency 300ms |
+|User | Sets up local Plapy install |Setup |Own System | Plapy is functional | Setup time <2h (If using documentation)|
+
 > Performance: Do not Share your Bots invite Link public. If the Bot joins too many servers, the performance of your Bot might suffer
 > Security: Never push Database Access Files to the Server, but always insert push database access directly to the server. Otherwise, anyone with access to your Repository can modify your Database
 
