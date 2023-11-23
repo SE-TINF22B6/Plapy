@@ -97,7 +97,8 @@ Play a Playlist:
 
 |Who |Event |Influence |Condition |Action | Measurement |
 |- |- |- |- |- | - |
-|Discord API | Ping to API | System | Runtime | Response from API | Max latency of 300ms|
+|Plapy| Handle 10 Discord Server per instance | System | Normal Operation | Function within expected Measurements | 10 servers | 
+|Plapy | Ping to Discord API | System | Runtime | Response from API | Max latency of 300ms|
 |Developer | Design a new command |Design |Design time | Design a new command to the bot | In 3 hour | 
 |Developer | Add a new command |Code |Developement | Add a new command to the bot | In 1 hour | 
 |Developer | Implement command |Code |Developement | Implement the command functionlity | In 8 hours |
