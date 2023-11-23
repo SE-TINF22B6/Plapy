@@ -105,6 +105,7 @@ Play a Playlist:
 |User |Use /play |System |Normal Operation | Song is played | Avg. wait time until playback < 1s |
 |User |Use /help |System |Normal Operation | Help for commands | help covers 100% of commands |
 |User |Use Plapy API |System |Normal Operation | API respondes | Max latency 300ms |
+|User | Encounters error |System |Error state | User is notified| Max wait without status message of 5s |
 |User | Sets up local Plapy install |Setup |Own System | Plapy is functional | Setup time <2h (If using documentation)|
 
 > Performance: Do not Share your Bots invite Link public. If the Bot joins too many servers, the performance of your Bot might suffer
