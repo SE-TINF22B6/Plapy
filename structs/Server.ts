@@ -192,6 +192,8 @@ export default class Server {
       console.log(`Server is running at ip http://${config.SERVER_IP}:${port}`);
     });
   }
+
+  //notify all websocket clients of the song change
   notifySongChange(serverId: string, song: any) {
     const message = JSON.stringify(song);
     if (this.clients[serverId]) {
