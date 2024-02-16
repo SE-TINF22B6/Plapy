@@ -6,10 +6,35 @@ import { canModifyQueue } from "../utils/queue";
 import { TextChannel } from "discord.js";
 import { config } from "../utils/config";
 import { Song } from "./Song";
+import WebSocket from "ws";
+
 
 export default class Server {
+  // Explicitly declare the type of clients
+  clients: { [serverId: string]: WebSocket[] } = {};
   public constructor(port: number) {
     const app = express();
+    app.use(express.json());
+
+    const wss = new WebSocket.Server({ port: 3010 });
+
+    wss.on("connection", (ws) => {
+      ws.on("message", (message) => {
+        // Explicitly declare the type of serverId
+        const serverId: string = message.toString();
+        if (!this.clients[serverId]) {
+          this.clients[serverId] = [];
+        }
+        this.clients[serverId].push(ws);
+      });
+
+      ws.on("close", () => {
+        // Remove this WebSocket from the clients object
+        for (let serverId in this.clients) {
+          this.clients[serverId] = this.clients[serverId].filter(client => client !== ws);
+        }
+      });
+    });
 
     app.post("/stop", (req: Request, res: Response) => {
       const guildId = req.headers.guildid?.toString()!;
@@ -104,7 +129,7 @@ export default class Server {
       const textChannel = <TextChannel>bot.client.channels.cache.get(channelId);
       let argSongName = req.headers.song?.toString()!;
       const queue = bot.queues.get(guildId);
-      const guildMember = bot.client.guilds.cache.get(guildId)?.members.cache.get(userId);
+      const guildMember = bot.client.guilds.cache.get(guildId)?.members.cache.get(userId)!;
       const { channel } = guildMember!.voice;
 
       if (!channel) return textChannel.send({ content: i18n.__("play.errorNotChannel") }).catch(console.error);
@@ -151,9 +176,28 @@ export default class Server {
       res.status(500);
       res.send("Something went wrong somewhere, somehow");
     });
+    app.get("/now-playing/:serverId", (req: Request, res: Response) => {
+      const serverId = req.params.serverId;
+      const queue = bot.queues.get(serverId);
+      if (!queue) {
+        res.status(404);
+        res.send("Queue not found");
+        return;
+      }
+      res.status(200);
+      return res.json(queue.songs[0]);
+    });
 
     app.listen(port, () => {
       console.log(`Server is running at ip http://${config.SERVER_IP}:${port}`);
     });
+  }
+
+  //notify all websocket clients of the song change
+  notifySongChange(serverId: string, song: any) {
+    const message = JSON.stringify(song);
+    if (this.clients[serverId]) {
+      this.clients[serverId].forEach(client => client.send(message));
+    }
   }
 }
