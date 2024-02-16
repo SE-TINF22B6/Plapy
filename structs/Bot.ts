@@ -18,7 +18,8 @@ import { i18n } from "../utils/i18n";
 import { MissingPermissionsException } from "../utils/MissingPermissionsException";
 import { MusicQueue } from "./MusicQueue";
 import { SavedPlaylist } from "./SavedPlaylist";
-
+import { createConnection, getManager, getRepository } from "typeorm";
+import  ormConfig  from "./OrmConfig"
 export class Bot {
   public readonly prefix = "/";
   public commands = new Collection<string, Command>();
@@ -29,18 +30,29 @@ export class Bot {
   public savedPlaylists = new Collection<string, SavedPlaylist>();
 
   public constructor(public readonly client: Client) {
-    this.client.login(config.TOKEN);
 
-    this.client.on("ready", () => {
-      console.log(`${this.client.user!.username} ready!`);
+    createConnection(ormConfig as any)
+      .then(connection => {
+        this.client.login(config.TOKEN);
 
-      this.registerSlashCommands();
-    });
+        this.client.on("ready", () => {
+          console.log(`${this.client.user!.username} ready!`);
 
-    this.client.on("warn", (info) => console.log(info));
-    this.client.on("error", console.error);
+          this.registerSlashCommands();
+        });
 
-    this.onInteractionCreate();
+        this.client.on("warn", (info) => console.log(info));
+        this.client.on("error", console.error);
+
+        this.onInteractionCreate();
+
+      })
+      .catch(error => {
+        console.error("Error connecting to the database", error);
+        process.exit(1); // Exit the process with an error code
+      });
+
+
   }
 
   private async registerSlashCommands() {
@@ -111,4 +123,7 @@ export class Bot {
       }
     });
   }
+
 }
+
+
