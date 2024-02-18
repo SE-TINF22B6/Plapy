@@ -32,6 +32,7 @@
     "soundcloud-downloader": "^0.2.3",
     "string-progressbar": "^1.0.4",
     "typeorm": "^0.3.17",
+    "ws": "^8.16.0",
     "youtube-sr": "~4.3.9"
   },
   "devDependencies": {

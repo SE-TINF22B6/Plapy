@@ -13,7 +13,7 @@ import {
 } from "@discordjs/voice";
 import { CommandInteraction, Message, TextChannel, User } from "discord.js";
 import { promisify } from "node:util";
-import { bot } from "../index";
+import { bot, server } from "../index";
 import { QueueOptions } from "../interfaces/QueueOptions";
 import { config } from "../utils/config";
 import { i18n } from "../utils/i18n";
@@ -96,9 +96,9 @@ export class MusicQueue {
           if (!this.songs.length) return this.stop();
         }
 
-        if (this.songs.length || this.resource.audioPlayer) this.processQueue();
+        if (this.songs.length || this.resource.audioPlayer) await this.processQueue();
       } else if (oldState.status === AudioPlayerStatus.Buffering && newState.status === AudioPlayerStatus.Playing) {
-        this.sendPlayingMessage(newState);
+        await this.sendPlayingMessage(newState);
       }
     });
 
@@ -192,6 +192,12 @@ export class MusicQueue {
 
     try {
       playingMessage = await this.textChannel.send((newState.resource as AudioResource<Song>).metadata.startMessage());
+      const data = {
+        title: this.songs[0].title,
+        url: this.songs[0].url
+      };
+
+      server.notifySongChange(this.interaction.guild!.id, data);
 
       await playingMessage.react("⏭");
       await playingMessage.react("⏯");
@@ -203,7 +209,7 @@ export class MusicQueue {
       await playingMessage.react("⏹");
     } catch (error: any) {
       console.error(error);
-      this.textChannel.send(error.message);
+      await this.textChannel.send(error.message);
       return;
     }
 
