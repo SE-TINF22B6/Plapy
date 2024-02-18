@@ -3,13 +3,40 @@ import express from "express";
 import { bot } from "../index";
 import { i18n } from "../utils/i18n";
 import { canModifyQueue } from "../utils/queue";
-import { TextChannel } from "discord.js";
+import { EmbedBuilder, TextChannel } from "discord.js";
 import { config } from "../utils/config";
 import { Song } from "./Song";
+import WebSocket from "ws";
+import { playlistPattern } from "../utils/patterns";
+import { Playlist } from "./Playlist";
+
 
 export default class Server {
+  // Explicitly declare the type of clients
+  clients: { [serverId: string]: WebSocket[] } = {};
   public constructor(port: number) {
     const app = express();
+    app.use(express.json());
+
+    const wss = new WebSocket.Server({ port: 3010 });
+
+    wss.on("connection", (ws) => {
+      ws.on("message", (message) => {
+        // Explicitly declare the type of serverId
+        const serverId: string = message.toString();
+        if (!this.clients[serverId]) {
+          this.clients[serverId] = [];
+        }
+        this.clients[serverId].push(ws);
+      });
+
+      ws.on("close", () => {
+        // Remove this WebSocket from the clients object
+        for (let serverId in this.clients) {
+          this.clients[serverId] = this.clients[serverId].filter(client => client !== ws);
+        }
+      });
+    });
 
     app.post("/stop", (req: Request, res: Response) => {
       const guildId = req.headers.guildid?.toString()!;
@@ -106,6 +133,11 @@ export default class Server {
       const queue = bot.queues.get(guildId);
       const guildMember = bot.client.guilds.cache.get(guildId)?.members.cache.get(userId);
       const { channel } = guildMember!.voice;
+      let playlist = false;
+
+      if (playlistPattern.test(argSongName)) {
+        playlist = true;
+      }
 
       if (!channel) return textChannel.send({ content: i18n.__("play.errorNotChannel") }).catch(console.error);
 
@@ -121,39 +153,101 @@ export default class Server {
 
       const url = argSongName;
 
-      let song = new Song({ title: "", url: "", duration: 0 });
+      if(!playlist) {
 
-      try {
-        song = await Song.from(url, url);
-      } catch (error: any) {
-        console.error(error);
+        let song = new Song({ title: "", url: "", duration: 0 });
 
-        if (error.name == "NoResults")
+
+        try {
+          song = await Song.from(url, url);
+        } catch (error: any) {
+          console.error(error);
+
+          if (error.name == "NoResults")
+            return textChannel
+              .send({ content: i18n.__mf("play.errorNoResults", { url: `<${url}>` }) })
+              .catch(console.error);
+
+          if (error.name == "InvalidURL")
+            return textChannel
+              .send({ content: i18n.__mf("play.errorInvalidURL", { url: `<${url}>` }) })
+              .catch(console.error);
+        }
+
+        if (queue) {
+          queue.enqueue(song);
+          res.status(200);
+          res.send(i18n.__mf("play.result", { title: song.title, author: userId }));
           return textChannel
-            .send({ content: i18n.__mf("play.errorNoResults", { url: `<${url}>` }) })
+            .send({ content: i18n.__mf("play.queueAdded", { title: song.title, author: userId }) })
             .catch(console.error);
+        }
 
-        if (error.name == "InvalidURL")
+        res.status(500);
+        res.send("Something went wrong somewhere, somehow");
+      } else {
+        let playlist;
+
+        try {
+          playlist = await Playlist.from(argSongName!.split(" ")[0], argSongName!);
+
+        } catch (error) {
+          console.error(error);
+          res.status(500);
+          res.send("Something went wrong somewhere, somehow");
+          return
+        }
+
+        if (queue) {
+          queue.songs.push(...playlist.songs);
+          let playlistEmbed = new EmbedBuilder()
+            .setTitle(`${playlist.name}`)
+            .setDescription(
+              playlist.songs
+                .map((song: Song, index: number) => `${index + 1}. ${song.title}`)
+                .join("\n")
+                .slice(0, 4095)
+            )
+            .setURL(playlist.url!)
+            .setColor("#F8AA2A")
+            .setTimestamp();
+          res.status(200);
+          res.send(i18n.__mf("playlist.startedPlaylist", { author: userId }));
           return textChannel
-            .send({ content: i18n.__mf("play.errorInvalidURL", { url: `<${url}>` }) })
+            .send({
+              content: i18n.__mf("playlist.startedPlaylist", { author: userId }),
+              embeds: [playlistEmbed]
+            })
             .catch(console.error);
+        }
+        res.status(500);
+        res.send("Something went wrong somewhere, somehow");
+        return
       }
+    });
 
-      if (queue) {
-        queue.enqueue(song);
-        res.status(200);
-        res.send(i18n.__mf("play.result", { title: song.title, author: userId }));
-        return textChannel
-          .send({ content: i18n.__mf("play.queueAdded", { title: song.title, author: userId }) })
-          .catch(console.error);
+    app.get("/now-playing/:serverId", (req: Request, res: Response) => {
+      const serverId = req.params.serverId;
+      const queue = bot.queues.get(serverId);
+      if (!queue) {
+        res.status(404);
+        res.send("Queue not found");
+        return;
       }
-
-      res.status(500);
-      res.send("Something went wrong somewhere, somehow");
+      res.status(200);
+      return res.json(queue.songs[0]);
     });
 
     app.listen(port, () => {
       console.log(`Server is running at ip http://${config.SERVER_IP}:${port}`);
     });
+  }
+
+  //notify all websocket clients of the song change
+  notifySongChange(serverId: string, song: any) {
+    const message = JSON.stringify(song);
+    if (this.clients[serverId]) {
+      this.clients[serverId].forEach(client => client.send(message));
+    }
   }
 }
