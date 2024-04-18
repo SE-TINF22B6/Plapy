@@ -9,9 +9,9 @@ import {
 } from "discord.js";
 import { bot } from "../index";
 import { i18n } from "../utils/i18n";
-import { canModifyQueue } from "../utils/queue";
 import { SavedPlaylist } from "../structs/SavedPlaylist";
 import { Song } from "../structs/Song";
+import { getRepository } from "typeorm";
 
 export default {
   data: new SlashCommandBuilder()
@@ -27,7 +27,6 @@ export default {
     const queue = bot.queues.get(interaction.guild!.id);
     const guildMemer = interaction.guild!.members.cache.get(interaction.user.id);
     const guildId = interaction.guild!.id;
-    let savedPlaylists = bot.savedPlaylists;
 
     if (!queue) {
       const content = { content: i18n.__("resume.errorPlaying") };
@@ -37,27 +36,16 @@ export default {
       return false;
     }
 
-    let playlist: SavedPlaylist;
+    let song = queue.songs.at(0);
+    const playlistRepository = getRepository(SavedPlaylist);
+    let savedPlaylist = await SavedPlaylist.getOrSaveNewPlaylist("" + interaction.options.getString("playlist"))
+    await savedPlaylist.saveNewSong(song!);
 
-    if (savedPlaylists.get(guildId + interaction.options.getString("playlist"))) {
-      let song = queue.songs.at(0);
-      playlist = savedPlaylists.get(guildId + interaction.options.getString("playlist"))!;
-      playlist?.songs.push(song!);
-    } else {
-      let song = queue.songs.at(0);
-      let title = interaction.options.getString("playlist") ?? "";
-      playlist = new SavedPlaylist({
-        songs: [song!],
-        title: title,
-        guildId: guildId
-      });
-      savedPlaylists.set(guildId + interaction.options.getString("playlist"), playlist);
-    }
 
     if (!queue || !queue.songs.length) return interaction.reply({ content: i18n.__("queue.errorNotQueue") });
 
     let currentPage = 0;
-    const embeds = generateQueueEmbed(interaction, playlist.songs, playlist.title);
+    const embeds = generateQueueEmbed(interaction, savedPlaylist.songs, savedPlaylist.title);
 
     await interaction.reply("⏳ Loading playlist...");
 
@@ -71,7 +59,7 @@ export default {
 
     try {
       await queueEmbed.react("⬅️");
-      await queueEmbed.react("⏹");
+      await queueEmbed.react("");
       await queueEmbed.react("➡️");
     } catch (error: any) {
       console.error(error);

@@ -18,7 +18,8 @@ import { i18n } from "../utils/i18n";
 import { MissingPermissionsException } from "../utils/MissingPermissionsException";
 import { MusicQueue } from "./MusicQueue";
 import { SavedPlaylist } from "./SavedPlaylist";
-
+import { createConnection, getManager, getRepository } from "typeorm";
+import  ormConfig  from "./OrmConfig"
 export class Bot {
   public readonly prefix = "/";
   public commands = new Collection<string, Command>();
@@ -26,21 +27,25 @@ export class Bot {
   public slashCommandsMap = new Collection<string, Command>();
   public cooldowns = new Collection<string, Collection<Snowflake, number>>();
   public queues = new Collection<Snowflake, MusicQueue>();
-  public savedPlaylists = new Collection<string, SavedPlaylist>();
 
   public constructor(public readonly client: Client) {
-    this.client.login(config.TOKEN);
 
-    this.client.on("ready", () => {
-      console.log(`${this.client.user!.username} ready!`);
 
-      this.registerSlashCommands();
+    createConnection(ormConfig as any).catch(error => {
+      console.error("Error connecting to the database", error);
     });
-
+    this.client.login(config.TOKEN);
+    this.client.on("ready", () => {
+          console.log(`${this.client.user!.username} ready!`);
+          this.registerSlashCommands();
+        });
     this.client.on("warn", (info) => console.log(info));
     this.client.on("error", console.error);
-
     this.onInteractionCreate();
+
+
+
+
   }
 
   private async registerSlashCommands() {
@@ -111,4 +116,7 @@ export class Bot {
       }
     });
   }
+
 }
+
+

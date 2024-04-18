@@ -3,9 +3,7 @@ import { config } from "../utils/config";
 import { Song } from "./Song";
 import { scRegex } from "../utils/patterns";
 import sc, { SoundCloud, SoundCloudPlaylist, SoundCloudTrack } from "play-dl";
-
-const pattern = /^.*(youtu.be\/|list=)([^#&?]*).*/i;
-
+const pattern = /^.*(youtu.be\/|list=)([^#\&\?]*).*/i;
 export class Playlist {
   name: string;
   url: string
