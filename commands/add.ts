@@ -9,7 +9,6 @@ import {
 } from "discord.js";
 import { bot } from "../index";
 import { i18n } from "../utils/i18n";
-import { canModifyQueue } from "../utils/queue";
 import { SavedPlaylist } from "../structs/SavedPlaylist";
 import { Song } from "../structs/Song";
 import { getRepository } from "typeorm";

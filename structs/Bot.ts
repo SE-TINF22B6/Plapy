@@ -30,26 +30,20 @@ export class Bot {
 
   public constructor(public readonly client: Client) {
 
-    createConnection(ormConfig as any)
-      .then(connection => {
-        this.client.login(config.TOKEN);
 
-        this.client.on("ready", () => {
+    createConnection(ormConfig as any).catch(error => {
+      console.error("Error connecting to the database", error);
+    });
+    this.client.login(config.TOKEN);
+    this.client.on("ready", () => {
           console.log(`${this.client.user!.username} ready!`);
-
           this.registerSlashCommands();
         });
+    this.client.on("warn", (info) => console.log(info));
+    this.client.on("error", console.error);
+    this.onInteractionCreate();
 
-        this.client.on("warn", (info) => console.log(info));
-        this.client.on("error", console.error);
 
-        this.onInteractionCreate();
-
-      })
-      .catch(error => {
-        console.error("Error connecting to the database", error);
-        process.exit(1); // Exit the process with an error code
-      });
 
 
   }
