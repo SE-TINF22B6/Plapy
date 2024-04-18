@@ -10,6 +10,6 @@ services:
       POSTGRES_DB: plapy_production_database
     ports:
       - "5432:5432"
-    volumes:
-      - ./initDB/schema.sql:/docker-entrypoint-initdb.d/schema.sql
-      - ./initDB/updates.sql:/docker-entrypoint-initdb.d/updates.sql
+    # volumes:
+    #  - ./initDB/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    #  - ./initDB/updates.sql:/docker-entrypoint-initdb.d/updates.sql

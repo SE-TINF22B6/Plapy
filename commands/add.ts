@@ -28,7 +28,6 @@ export default {
     const queue = bot.queues.get(interaction.guild!.id);
     const guildMemer = interaction.guild!.members.cache.get(interaction.user.id);
     const guildId = interaction.guild!.id;
-    let savedPlaylists = bot.savedPlaylists;
 
     if (!queue) {
       const content = { content: i18n.__("resume.errorPlaying") };
@@ -38,31 +37,16 @@ export default {
       return false;
     }
 
-    let playlist: SavedPlaylist;
     let song = queue.songs.at(0);
-
-    if (savedPlaylists.get(guildId + interaction.options.getString("playlist"))) {
-      playlist = savedPlaylists.get(guildId + interaction.options.getString("playlist"))!;
-      if(!playlist.songs.includes(song!)){
-        playlist?.songs.push(song!);}
-    } else {
-      let song = queue.songs.at(0);
-      let title = interaction.options.getString("playlist") ?? "";
-      playlist = new SavedPlaylist({
-        songs: [song!],
-        title: title
-      });
-      savedPlaylists.set(guildId + interaction.options.getString("playlist"), playlist);
-    }
-    const songRepository = getRepository(Song);
-    songRepository.save(song!);
     const playlistRepository = getRepository(SavedPlaylist);
-    playlistRepository.save(playlist!);
+    let savedPlaylist = await SavedPlaylist.getOrSaveNewPlaylist("" + interaction.options.getString("playlist"))
+    await savedPlaylist.saveNewSong(song!);
+
 
     if (!queue || !queue.songs.length) return interaction.reply({ content: i18n.__("queue.errorNotQueue") });
 
     let currentPage = 0;
-    const embeds = generateQueueEmbed(interaction, playlist.songs, playlist.title);
+    const embeds = generateQueueEmbed(interaction, savedPlaylist.songs, savedPlaylist.title);
 
     await interaction.reply("⏳ Loading playlist...");
 

@@ -6,12 +6,17 @@ CREATE TABLE Song (
                       length INT NOT NULL
 );
 
--- Create the Playlist table
+
 CREATE TABLE Playlist (
                           id SERIAL PRIMARY KEY,
                           name VARCHAR(255) NOT NULL,
-                          description TEXT,
-                          songs INT[],
-                          FOREIGN KEY (songs) REFERENCES Song
-
+                          description TEXT
 );
+
+CREATE TABLE Playlist_Song (
+                               song_id INTEGER NOT NULL,
+                               playlist_id INTEGER NOT NULL,
+                               FOREIGN KEY (song_id) REFERENCES Song(id),
+                               FOREIGN KEY (playlist_id) REFERENCES Playlist(id)
+);
+

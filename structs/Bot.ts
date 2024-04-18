@@ -27,7 +27,6 @@ export class Bot {
   public slashCommandsMap = new Collection<string, Command>();
   public cooldowns = new Collection<string, Collection<Snowflake, number>>();
   public queues = new Collection<Snowflake, MusicQueue>();
-  public savedPlaylists = new Collection<string, SavedPlaylist>();
 
   public constructor(public readonly client: Client) {
 

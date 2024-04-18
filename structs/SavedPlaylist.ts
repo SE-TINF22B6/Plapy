@@ -1,13 +1,15 @@
+import { Column, Entity, getRepository, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Song } from "./Song";
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from "typeorm";
 
 @Entity({name: "playlist"})
 export class SavedPlaylist {
   @PrimaryGeneratedColumn({name: "id"})
   id: number;
 
-  @ManyToMany(() => Song)
-  @JoinTable({name: "playlist_songs"})
+  @OneToMany(() => Song, song => song.playlist, {
+    cascade: ['insert', 'update']
+
+  }) // Define the one-to-many relationship
   public songs: Song[];
 
   @Column({type : "text", name: "name"})
@@ -24,7 +26,33 @@ export class SavedPlaylist {
       this.title = data.title!;
     }
   }
+
+
+  public async saveNewSong(song: Song): Promise<Song> {
+    const songRepository = getRepository(Song);
+    song.playlist = this;
+    await songRepository.save(song); // This saves the song to the database
+    if(!this.songs){
+      this.songs = []
+    }
+    this.songs.push(song);
+    return song;
+  }
+
+  public static async getOrSaveNewPlaylist(name: string):Promise<SavedPlaylist>{
+    const playlistRepository = getRepository(SavedPlaylist);
+    return await playlistRepository.findOne({
+        where: { title: name },
+        relations: ["songs"]
+      }) ||
+      await playlistRepository.save(new SavedPlaylist({
+        songs: [],
+        title: name
+      }));
 }
+}
+
+
 
 export interface PlaylistData {
   id: number;

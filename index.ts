@@ -17,11 +17,3 @@ export const bot = new Bot(
   })
 );
 export const server = new Server(3000);
-
-async function fetchPlaylists() {
-  const playlistRepository = getManager().getRepository(SavedPlaylist);
-  let savedPlaylistsFromDb = await playlistRepository.find();
-  for (const playlist of savedPlaylistsFromDb) {
-    bot.savedPlaylists.set(playlist.title, playlist);
-  }
-}

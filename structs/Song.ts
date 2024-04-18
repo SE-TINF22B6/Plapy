@@ -1,8 +1,9 @@
 import { AudioResource, createAudioResource, StreamType } from "@discordjs/voice";
 import youtube from "youtube-sr";
 import { i18n } from "../utils/i18n";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { videoPattern, isURL, scRegex } from "../utils/patterns";
+import { SavedPlaylist } from "./SavedPlaylist";
 
 const { stream, video_basic_info } = require("play-dl");
 const sc = require('play-dl')
@@ -27,6 +28,9 @@ export class Song {
 
   @Column({type: 'integer', name: "length"})
   public readonly duration: number = 0;
+
+  @ManyToOne(() => SavedPlaylist, playlist => playlist.songs) // Define the many-to-one relationship
+  public playlist: SavedPlaylist;
 
   public constructor(songData?: SongData) {
     if (songData) {
