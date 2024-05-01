@@ -30,6 +30,8 @@ Whenever a user issues a command through the Discord chat, Plapy reacts immediat
 > ![Sequenzdiagramm_Bot-login drawio](https://github.com/SE-TINF22B6/Plapy/assets/123726628/1ba93f8e-1469-4b4a-b5c4-e673f294a700)
 
 #### 3.2 Component diagram
+> This diagram shows the different components of the Plapy Bot. The *.json-, *.js- and *.ts files are used to create the app component of the bot. It also needs the structs. It gets the commands by interaction, which uses the interfaces of the structs and utils package components. The commands can run by themselves, but are able to use data stored in a database. The database is created by the docker file.
+> ![Plapy_Bot_Componentdiagram drawio](https://github.com/SE-TINF22B6/Plapy/assets/75337582/9b00a25d-064f-4368-8065-5fd4fed10617)
 
 #### 3.3 Package diagram
 > This diagram gives us a general overview about how the bot works. The DiscordIndex is the package, that communicates with the Discord API. Therefore it uses all the other packages (except datasbase and Playlists) to gather the information it needs to send to the bot and it will also trigger the Events, when someone writes a command.
