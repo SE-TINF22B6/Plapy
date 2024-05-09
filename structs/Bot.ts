@@ -3,6 +3,7 @@ import {
   ChatInputCommandInteraction,
   Client,
   Collection,
+  CommandInteraction,
   Events,
   Interaction,
   REST,
@@ -17,8 +18,7 @@ import { config } from "../utils/config";
 import { i18n } from "../utils/i18n";
 import { MissingPermissionsException } from "../utils/MissingPermissionsException";
 import { MusicQueue } from "./MusicQueue";
-import { SavedPlaylist } from "./SavedPlaylist";
-import { createConnection, getManager, getRepository } from "typeorm";
+import { createConnection} from "typeorm";
 import  ormConfig  from "./OrmConfig"
 export class Bot {
   public readonly prefix = "/";
@@ -27,9 +27,9 @@ export class Bot {
   public slashCommandsMap = new Collection<string, Command>();
   public cooldowns = new Collection<string, Collection<Snowflake, number>>();
   public queues = new Collection<Snowflake, MusicQueue>();
+  public permanentQueues = new Collection<string, CommandInteraction>();
 
   public constructor(public readonly client: Client) {
-
 
     createConnection(ormConfig as any).catch(error => {
       console.error("Error connecting to the database", error);
@@ -42,9 +42,6 @@ export class Bot {
     this.client.on("warn", (info) => console.log(info));
     this.client.on("error", console.error);
     this.onInteractionCreate();
-
-
-
 
   }
 
