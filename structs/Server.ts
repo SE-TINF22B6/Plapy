@@ -200,6 +200,13 @@ export default class Server {
             res.status(404);
             res.send("Please create a permanent queue first using /createpermanentqueue.");
           }
+        } else {
+          queue.enqueue(song);
+          res.status(200);
+          res.send(i18n.__mf("play.queueAdded", { title: song.title, author: userId }));
+          return textChannel
+            .send({ content: i18n.__mf("play.queueAdded", { title: song.title, author: userId }) })
+            .catch(console.error);
         }
 
         res.status(500);
@@ -261,10 +268,32 @@ export default class Server {
               .send({ content: "<@" + userId + ">" + " Please create a permanent queue first using /createpermanentqueue." })
               .catch(console.error);
           }
+        } else {
+          queue.enqueue(playlist.songs[0]);
+          if (queue.songs.length > 1) {
+            playlist.songs.shift();
+            queue.songs.push(...playlist.songs);
+          }
+          let playlistEmbed = new EmbedBuilder()
+            .setTitle(`${playlist.name}`)
+            .setDescription(
+              playlist.songs
+                .map((song: Song, index: number) => `${index + 1}. ${song.title}`)
+                .join("\n")
+                .slice(0, 4095)
+            )
+            .setURL(playlist.url!)
+            .setColor("#F8AA2A")
+            .setTimestamp();
+          res.status(200);
+          res.send(i18n.__mf("playlist.startedPlaylist", { author: userId }));
+          return textChannel
+            .send({
+              content: i18n.__mf("playlist.startedPlaylist", { author: userId }),
+              embeds: [playlistEmbed]
+            })
+            .catch(console.error);
         }
-        res.status(500);
-        res.send("Something went wrong somewhere, somehow");
-        return;
       }
     });
 
