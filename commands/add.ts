@@ -11,7 +11,6 @@ import { bot } from "../index";
 import { i18n } from "../utils/i18n";
 import { SavedPlaylist } from "../structs/SavedPlaylist";
 import { Song } from "../structs/Song";
-import { getRepository } from "typeorm";
 
 export default {
   data: new SlashCommandBuilder()
@@ -37,10 +36,8 @@ export default {
     }
 
     let song = queue.songs.at(0);
-    const playlistRepository = getRepository(SavedPlaylist);
-    let savedPlaylist = await SavedPlaylist.getOrSaveNewPlaylist("" + interaction.options.getString("playlist"))
+    let savedPlaylist = await SavedPlaylist.getOrSaveNewPlaylist("" + interaction.options.getString("playlist"), interaction.guildId!)
     await savedPlaylist.saveNewSong(song!);
-
 
     if (!queue || !queue.songs.length) return interaction.reply({ content: i18n.__("queue.errorNotQueue") });
 

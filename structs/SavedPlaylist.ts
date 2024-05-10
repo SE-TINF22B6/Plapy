@@ -1,15 +1,14 @@
-import { Column, Entity, getRepository, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {Column, Entity, getRepository, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import { Song } from "./Song";
+import * as punycode from "punycode";
 
 @Entity({name: "playlist"})
 export class SavedPlaylist {
   @PrimaryGeneratedColumn({name: "id"})
   id: number;
 
-  @OneToMany(() => Song, song => song.playlist, {
-    cascade: ['insert', 'update']
-
-  }) // Define the one-to-many relationship
+  @ManyToMany(() => Song, { cascade: ['insert', 'update'] })
+  @JoinTable()
   public songs: Song[];
 
   @Column({type : "text", name: "name"})
@@ -18,39 +17,46 @@ export class SavedPlaylist {
   @Column({type : "text", name: "description"})
   description: string = "";
 
+  @Column({type: "text" , name:"guild"})
+  guildID: string;
+
   constructor(data?: Partial<PlaylistData>) {
     if (data) {
       if(data.songs) {
         this.songs = data.songs!;
       }
       this.title = data.title!;
+      this.guildID = data.guildId!;
     }
   }
 
 
   public async saveNewSong(song: Song): Promise<Song> {
-    const songRepository = getRepository(Song);
-    song.playlist = this;
-    await songRepository.save(song); // This saves the song to the database
     if(!this.songs){
       this.songs = []
     }
     this.songs.push(song);
+    this.save();
     return song;
   }
 
-  public static async getOrSaveNewPlaylist(name: string):Promise<SavedPlaylist>{
+  public static async getOrSaveNewPlaylist(name: string, guildID: string):Promise<SavedPlaylist>{
     const playlistRepository = getRepository(SavedPlaylist);
     return await playlistRepository.findOne({
-        where: { title: name },
+        where: { title: name , guildID: guildID},
         relations: ["songs"]
       }) ||
       await playlistRepository.save(new SavedPlaylist({
         songs: [],
-        title: name
+        title: name,
+        guildId: guildID
       }));
+  }
+  public save(){
+    getRepository(SavedPlaylist).save(this);
+  }
 }
-}
+
 
 
 
@@ -59,4 +65,6 @@ export interface PlaylistData {
   songs: Song[];
   title: string;
   description: string;
+
+  guildId: string;
 }
