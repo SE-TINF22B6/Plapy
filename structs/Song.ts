@@ -29,9 +29,6 @@ export class Song {
   @Column({type: 'integer', name: "length"})
   public readonly duration: number = 0;
 
-  @ManyToOne(() => SavedPlaylist, playlist => playlist.songs) // Define the many-to-one relationship
-  public playlist: SavedPlaylist;
-
   public constructor(songData?: SongData) {
     if (songData) {
       this.url = songData.url;
