@@ -52,8 +52,8 @@ export class SavedPlaylist {
         guildId: guildID
       }));
   }
-  public save(){
-    getRepository(SavedPlaylist).save(this);
+  public async save() {
+    await getRepository(SavedPlaylist).save(this);
   }
 }
 
@@ -65,6 +65,5 @@ export interface PlaylistData {
   songs: Song[];
   title: string;
   description: string;
-
   guildId: string;
 }
