@@ -9,11 +9,14 @@ import { Song } from "./Song";
 import WebSocket from "ws";
 import { playlistPattern } from "../utils/patterns";
 import { Playlist } from "./Playlist";
+import { MusicQueue } from "./MusicQueue";
+import { DiscordGatewayAdapterCreator, joinVoiceChannel } from "@discordjs/voice";
 
 
 export default class Server {
   // Explicitly declare the type of clients
   clients: { [serverId: string]: WebSocket[] } = {};
+
   public constructor(port: number) {
     const app = express();
     app.use(express.json());
@@ -153,7 +156,7 @@ export default class Server {
 
       const url = argSongName;
 
-      if(!playlist) {
+      if (!playlist) {
 
         let song = new Song({ title: "", url: "", duration: 0 });
 
@@ -174,10 +177,33 @@ export default class Server {
               .catch(console.error);
         }
 
-        if (queue) {
+        if (!queue) {
+          const interaction = bot.permanentQueues.get(guildId);
+          if (interaction) {
+            const newQueue = new MusicQueue({
+              interaction,
+              textChannel: interaction.channel! as TextChannel,
+              connection: joinVoiceChannel({
+                channelId: interaction.guild!.members.cache.get(interaction.user.id)?.voice!.channel!.id!,
+                guildId: channel.guild.id,
+                adapterCreator: channel.guild.voiceAdapterCreator as DiscordGatewayAdapterCreator
+              })
+            });
+            newQueue.enqueue(song);
+            bot.queues.set(interaction.guild!.id, newQueue);
+            res.status(200);
+            res.send(i18n.__mf("play.result", { title: song.title, author: userId }));
+            return textChannel
+              .send({ content: i18n.__mf("play.queueAdded", { title: song.title, author: userId }) })
+              .catch(console.error);
+          } else {
+            res.status(404);
+            res.send("Please create a permanent queue first using /createpermanentqueue.");
+          }
+        } else {
           queue.enqueue(song);
           res.status(200);
-          res.send(i18n.__mf("play.result", { title: song.title, author: userId }));
+          res.send(i18n.__mf("play.queueAdded", { title: song.title, author: userId }));
           return textChannel
             .send({ content: i18n.__mf("play.queueAdded", { title: song.title, author: userId }) })
             .catch(console.error);
@@ -195,11 +221,59 @@ export default class Server {
           console.error(error);
           res.status(500);
           res.send("Something went wrong somewhere, somehow");
-          return
+          return;
         }
 
-        if (queue) {
-          queue.songs.push(...playlist.songs);
+        if (!queue) {
+          const interaction = bot.permanentQueues.get(guildId);
+          if (interaction) {
+            const newQueue = new MusicQueue({
+              interaction,
+              textChannel: interaction.channel! as TextChannel,
+              connection: joinVoiceChannel({
+                channelId: interaction.guild!.members.cache.get(interaction.user.id)?.voice!.channel!.id!,
+                guildId: channel.guild.id,
+                adapterCreator: channel.guild.voiceAdapterCreator as DiscordGatewayAdapterCreator
+              })
+            });
+            bot.queues.set(interaction.guild!.id, newQueue);
+            newQueue.enqueue(playlist.songs[0]);
+            if (newQueue.songs.length > 1) {
+              playlist.songs.shift();
+              newQueue.songs.push(...playlist.songs);
+            }
+            let playlistEmbed = new EmbedBuilder()
+              .setTitle(`${playlist.name}`)
+              .setDescription(
+                playlist.songs
+                  .map((song: Song, index: number) => `${index + 1}. ${song.title}`)
+                  .join("\n")
+                  .slice(0, 4095)
+              )
+              .setURL(playlist.url!)
+              .setColor("#F8AA2A")
+              .setTimestamp();
+            res.status(200);
+            res.send(i18n.__mf("playlist.startedPlaylist", { author: userId }));
+            return textChannel
+              .send({
+                content: i18n.__mf("playlist.startedPlaylist", { author: userId }),
+                embeds: [playlistEmbed]
+              })
+              .catch(console.error);
+          } else {
+            res.status(404);
+            res.send("Please create a permanent queue first using /createpermanentqueue.");
+            return textChannel
+              .send({ content: "<@" + userId + ">" + " Please create a permanent queue first using /createpermanentqueue." })
+              .catch(console.error);
+          }
+        } else {
+          queue.enqueue(playlist.songs[0]);
+          if (queue.songs.length > 1) {
+            playlist.songs.shift();
+            queue.songs.push(...playlist.songs);
+          }
           let playlistEmbed = new EmbedBuilder()
             .setTitle(`${playlist.name}`)
             .setDescription(
@@ -220,9 +294,6 @@ export default class Server {
             })
             .catch(console.error);
         }
-        res.status(500);
-        res.send("Something went wrong somewhere, somehow");
-        return
       }
     });
 
