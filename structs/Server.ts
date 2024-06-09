@@ -11,7 +11,7 @@ import { playlistPattern } from "../utils/patterns";
 import { Playlist } from "./Playlist";
 import { MusicQueue } from "./MusicQueue";
 import { DiscordGatewayAdapterCreator, joinVoiceChannel } from "@discordjs/voice";
-
+import { authenticateApiKey } from "./AuthenticateApiKey";
 
 export default class Server {
   // Explicitly declare the type of clients
@@ -41,20 +41,22 @@ export default class Server {
       });
     });
 
-    app.post("/stop", (req: Request, res: Response) => {
+    app.use(authenticateApiKey);
+
+    app.post("/stop", async (req: Request, res: Response) => {
       const guildId = req.headers.guildid?.toString()!;
       const userId = req.headers.userid?.toString()!;
       const channelId = req.headers.channelid?.toString()!;
       const channel: TextChannel = <TextChannel>bot.client.channels.cache.get(channelId);
       const queue = bot.queues.get(guildId);
-      const guildMemer = bot.client.guilds.cache.get(guildId)?.members.cache.get(userId);
+      const guildMember = bot.client.guilds.cache.get(guildId)?.members.cache.get(userId);
 
       if (!queue) {
         res.status(404);
         res.send(i18n.__("stop.errorNotQueue"));
         return channel?.send(i18n.__("stop.errorNotQueue")).catch(console.error);
       }
-      if (!guildMemer || !canModifyQueue(guildMemer)) {
+      if (!guildMember || !canModifyQueue(guildMember)) {
         res.status(404);
         res.send(i18n.__("common.errorNotChannel"));
         return i18n.__("common.errorNotChannel");
