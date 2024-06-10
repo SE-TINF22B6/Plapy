@@ -24,22 +24,18 @@ export default {
     ),
   async execute(interaction: ChatInputCommandInteraction) {
     const queue = bot.queues.get(interaction.guild!.id);
-    const guildMemer = interaction.guild!.members.cache.get(interaction.user.id);
-    const guildId = interaction.guild!.id;
+    const songInput = interaction.options.getString("song");
+    let savedPlaylist = await SavedPlaylist.getOrSaveNewPlaylist("" + interaction.options.getString("playlist"), interaction.guildId!);
 
-    if (!queue) {
-      const content = { content: i18n.__("resume.errorPlaying") };
-
-      if (interaction.replied) interaction.followUp(content).catch(console.error);
-      else interaction.reply(content).catch(console.error);
-      return false;
+    if (songInput) {
+      let song = await Song.from(songInput);
+      await savedPlaylist.saveNewSong(song);
     }
+    if (queue ) {
+      let song = queue.songs.at(0);
 
-    let song = queue.songs.at(0);
-    let savedPlaylist = await SavedPlaylist.getOrSaveNewPlaylist("" + interaction.options.getString("playlist"), interaction.guildId!)
-    await savedPlaylist.saveNewSong(song!);
-
-    if (!queue || !queue.songs.length) return interaction.reply({ content: i18n.__("queue.errorNotQueue") });
+      await savedPlaylist.saveNewSong(song!);
+    }
 
     let currentPage = 0;
     const embeds = generateQueueEmbed(interaction, savedPlaylist.songs, savedPlaylist.title);
@@ -56,7 +52,6 @@ export default {
 
     try {
       await queueEmbed.react("⬅️");
-      await queueEmbed.react("");
       await queueEmbed.react("➡️");
     } catch (error: any) {
       console.error(error);
