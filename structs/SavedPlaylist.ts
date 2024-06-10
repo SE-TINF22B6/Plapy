@@ -47,13 +47,13 @@ export class SavedPlaylist {
         relations: ["songs"]
       }) ||
       await playlistRepository.save(new SavedPlaylist({
-        songs: [],
+        songs: [] as Song[],
         title: name,
         guildId: guildID
       }));
   }
-  public save(){
-    getRepository(SavedPlaylist).save(this);
+  public async save() {
+    await getRepository(SavedPlaylist).save(this);
   }
 }
 
@@ -65,6 +65,5 @@ export interface PlaylistData {
   songs: Song[];
   title: string;
   description: string;
-
   guildId: string;
 }
