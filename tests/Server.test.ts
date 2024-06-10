@@ -1,6 +1,7 @@
 import { SavedPlaylist } from '../structs/SavedPlaylist';
 import { getRepository } from 'typeorm';
-import { Song } from "../structs/Song"; // Import the getRepository function
+import { Song } from "../structs/Song";
+
 
 jest.mock('typeorm', () => ({
   PrimaryGeneratedColumn: jest.fn(),
@@ -18,8 +19,8 @@ describe('Hello Tests', () => {
     // Mock the behavior of the getRepository function
     const mockFindOne = jest.fn();
     const mockSave = jest.fn();
-    mockFindOne.mockResolvedValueOnce(null); // Mock the behavior for findOne
-    mockSave.mockResolvedValue(new SavedPlaylist({title: "new playlist" , guildId: "myGuild"}));
+    mockFindOne.mockResolvedValue(null); // Mock the behavior for findOne
+    mockSave.mockResolvedValue(new SavedPlaylist({songs: [] , title: "new playlist" , guildId: "myGuild"}));
 
     (getRepository as jest.Mock).mockReturnValue({
       findOne: mockFindOne,
@@ -28,8 +29,15 @@ describe('Hello Tests', () => {
 
     const song = getTestSong();
     const playlist = await SavedPlaylist.getOrSaveNewPlaylist('newPlaylist', 'mockGuild');
+
+    expect(playlist.songs).toStrictEqual([])
     await playlist.saveNewSong(song);
     expect(playlist.songs.length).toBe(1);
+
+    await playlist.saveNewSong(getSecondTestSong());
+    expect(playlist.songs.length).toBe(2)
+
+
   });
 
   test('0 != "0"', () => {
@@ -69,10 +77,19 @@ test("empty string should result in zero", () => {
 });
 
 const getTestSong = () =>{
-  return  new Song(
+  return new Song(
     {
       url: "https://song.tests.com/testSong1" ,
       title:"Testsong",
-      duration: 200}
-  )
+      duration: 200
+    })
+}
+
+const getSecondTestSong = () => {
+  return new Song(
+    {
+      url: "https://song.tests.com/testSong2" ,
+      title:"zweiter testsong",
+      duration: 100
+    })
 }

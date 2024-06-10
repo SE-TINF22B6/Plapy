@@ -47,7 +47,7 @@ export class SavedPlaylist {
         relations: ["songs"]
       }) ||
       await playlistRepository.save(new SavedPlaylist({
-        songs: [],
+        songs: [] as Song[],
         title: name,
         guildId: guildID
       }));
