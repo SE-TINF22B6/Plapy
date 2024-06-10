@@ -83,16 +83,24 @@ Copy or Rename `config.json.example` to `config.json` and fill out the values:
 - Command Handler from [discordjs.guide](https://discordjs.guide/)
 - Media Controls via Reactions
 
-## 🆕 New commands available with Plapy
+## 🆕 New commands and features only available with Plapy
+
+- Soundcloud support
 
 - Start an autoplay radio based on a song (/radio)
+- Add the currently playing song to a server specific playlsy (/add)
+- Load a server specific playlist from a dropdown menu (/savedplaylist)
+- Register for API access (/registerapi)
+- Create a permanent queue maping to start playing songs from the api without using discord at all (/createpermanentqueue)
+- 
 
 ## 🫵 Available API-Endpoints
 
 - Stop the playback (/stop)
 - Skip (/skip)
 - Volume control (/volume)
-- Play --currently only available if a server has an active queue-- (/play)
+- Play (/play)
+- Now Playing (/nowplaying)
 
 ![reactions](https://i.imgur.com/0hdUX1C.png)
 
