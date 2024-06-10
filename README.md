@@ -41,7 +41,7 @@ Copy or Rename `config.json.example` to `config.json` and fill out the values:
   "SERVER_IP": "localhost",
   "STRUCTS_LOCATION": "structs/*.ts"
   // if you want to run the compiled version of the bot, change the extension of the file to .js :
-  // "STRUCTS_LOCATION": "structs/*.js"
+  // "STRUCTS_LOCATION": "dist/structs/*.js"
 }
 ```
 
