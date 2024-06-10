@@ -24,10 +24,8 @@ export default {
     ),
   async execute(interaction: ChatInputCommandInteraction) {
     const queue = bot.queues.get(interaction.guild!.id);
-    const guildMemer = interaction.guild!.members.cache.get(interaction.user.id);
-    const guildId = interaction.guild!.id;
 
-    if (!queue) {
+    if ((!queue && !interaction.options.getString("song")) || !queue) {
       const content = { content: i18n.__("resume.errorPlaying") };
 
       if (interaction.replied) interaction.followUp(content).catch(console.error);
@@ -56,7 +54,6 @@ export default {
 
     try {
       await queueEmbed.react("⬅️");
-      await queueEmbed.react("");
       await queueEmbed.react("➡️");
     } catch (error: any) {
       console.error(error);

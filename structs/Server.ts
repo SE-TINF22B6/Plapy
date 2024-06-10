@@ -272,10 +272,11 @@ export default class Server {
           }
         } else {
           queue.enqueue(playlist.songs[0]);
-          if (queue.songs.length > 1) {
+          if (playlist.songs.length > 1) {
             playlist.songs.shift();
             queue.songs.push(...playlist.songs);
           }
+
           let playlistEmbed = new EmbedBuilder()
             .setTitle(`${playlist.name}`)
             .setDescription(
