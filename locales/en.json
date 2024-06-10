@@ -183,5 +183,6 @@
 		"errorCommand": "There was an error executing that command."
 	},
 	"Invite me to your server!": "Invite me to your server!",
-	"Invite": "Invite"
+	"Invite": "Invite",
+	"ApiKey": "Receive an API key to use the bot's API."
 }

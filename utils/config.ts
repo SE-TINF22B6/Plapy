@@ -13,7 +13,8 @@ try {
     STAY_TIME: parseInt(process.env.STAY_TIME!) || 30,
     DEFAULT_VOLUME: parseInt(process.env.DEFAULT_VOLUME!) || 100,
     LOCALE: process.env.LOCALE || "en",
-    SERVER_IP: process.env.SERVER_IP || "localhost"
+    SERVER_IP: process.env.SERVER_IP || "localhost",
+    STRUCTS_LOCATION: process.env.STRUCTS_LOCATION || "",
   };
 }
 

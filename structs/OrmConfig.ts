@@ -2,15 +2,16 @@
 
 import { DatabaseConfig } from "../interfaces/DatabaseConfig";
 
-  let config: DatabaseConfig = require("../databaseConfig.json");
+  let databaseConfig: DatabaseConfig = require("../databaseConfig.json");
+  let config = require("../config.json");
 export default {
   type: 'postgres',
-  host: config.host,
-  port: config.port,
-  username: config.user,
-  password: config.password,
-  database: config.database,
-  entities: ["structs/*.ts"],
+  host: databaseConfig.host,
+  port: databaseConfig.port,
+  username: databaseConfig.user,
+  password: databaseConfig.password,
+  database: databaseConfig.database,
+  entities: [config.STRUCTS_LOCATION],
   synchronize: true,
   logging: false
 };

@@ -6,4 +6,5 @@ export interface Config {
   DEFAULT_VOLUME: number;
   LOCALE: string;
   SERVER_IP: string;
+  STRUCTS_LOCATION: string;
 }

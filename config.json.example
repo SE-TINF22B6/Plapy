@@ -5,5 +5,8 @@
   "LOCALE": "en",
   "STAY_TIME": 30,
   "DEFAULT_VOLUME": 100,
-  "SERVER_IP": ""
+  "SERVER_IP": "",
+  "STRUCTS_LOCATION": "structs/*.ts"
+  // if you want to run the compiled version of the bot, change the extension of the file to .js :
+  // "STRUCTS_LOCATION": "structs/*.js"
 }
