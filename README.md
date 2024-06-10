@@ -33,12 +33,15 @@ Copy or Rename `config.json.example` to `config.json` and fill out the values:
 ```json
 {
   "TOKEN": "",
-  "MAX_PLAYLIST_SIZE": 10,
+  "MAX_PLAYLIST_SIZE": 100,
   "PRUNING": false,
   "LOCALE": "en",
-  "DEFAULT_VOLUME": 100,
+  "DEFAULT_VOLUME": 10,
   "STAY_TIME": 30,
-   "SERVER_IP": "localhost"
+  "SERVER_IP": "localhost",
+  "STRUCTS_LOCATION": "structs/*.ts"
+  // if you want to run the compiled version of the bot, change the extension of the file to .js :
+  // "STRUCTS_LOCATION": "structs/*.js"
 }
 ```
 
