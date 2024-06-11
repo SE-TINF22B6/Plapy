@@ -240,7 +240,7 @@ export default class Server {
             });
             bot.queues.set(interaction.guild!.id, newQueue);
             newQueue.enqueue(playlist.songs[0]);
-            if (newQueue.songs.length > 1) {
+            if (playlist.songs.length > 1) {
               playlist.songs.shift();
               newQueue.songs.push(...playlist.songs);
             }
