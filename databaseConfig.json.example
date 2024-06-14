@@ -1,0 +1,7 @@
+{
+   "user": "user",
+   "host": "localhost",
+   "database": "plapy_production_database",
+   "password": "plapyDev",
+   "port": 5432
+   }
