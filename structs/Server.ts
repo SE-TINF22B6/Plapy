@@ -12,6 +12,7 @@ import { Playlist } from "./Playlist";
 import { MusicQueue } from "./MusicQueue";
 import { DiscordGatewayAdapterCreator, joinVoiceChannel } from "@discordjs/voice";
 import { authenticateApiKey } from "./AuthenticateApiKey";
+import cors from "cors";
 
 export default class Server {
   // Explicitly declare the type of clients
@@ -20,6 +21,7 @@ export default class Server {
   public constructor(port: number) {
     const app = express();
     app.use(express.json());
+    app.use(cors({ origin: 'http://localhost:3000' }));
 
     const wss = new WebSocket.Server({ port: 3010 });
 

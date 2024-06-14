@@ -11,7 +11,7 @@ Whenever a user issues a command through the Discord chat, Plapy reacts immediat
 > - Data Flow Control: Given the event-driven nature, Plapy's architecture must effectively control data flow, ensuring that events (commands from users) are processed in an orderly and timely manner, despite the asynchronous nature of interactions.
 #### 1.3 Definitions, Acronyms and Abbreviations
 > - Discord =  A communication platform designed primarily for gamers but widely used by various communities. It supports voice, video, and text chat.
-> - 
+
 #### 1.4 References
 > no references yet
 
