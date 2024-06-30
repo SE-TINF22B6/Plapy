@@ -1,4 +1,4 @@
-# Project Name
+# Plapy
 ## Measurements
 
 ### 1. Introduction
