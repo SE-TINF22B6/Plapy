@@ -1,7 +1,7 @@
 # Risk Management
 
 ## All numerical Ratings go from 0(very low) to 10(extremely high) 
-## Follwing aspects are looked upon:
+> Follwing aspects are looked upon:
 >
 > Category: a group the risk can be sorted into
 > Description: Short explaination of what the risk is
