@@ -1,11 +1,11 @@
 # Risk Management
 
-##All numerical Ratings go from 0(very low) to 10(extremely high) 
-##Follwing aspects are looked upon:
+## All numerical Ratings go from 0(very low) to 10(extremely high) 
+## Follwing aspects are looked upon:
 >
->Category: a group the risk can be sorted into
->Description: Short explaination of what the risk is
->Probabilty: How likely the risk is to happen 
+> Category: a group the risk can be sorted into
+> Description: Short explaination of what the risk is
+> Probabilty: How likely the risk is to happen 
 >Impact: How much the Risk would affect us if it happens
 >Customer Symtoms: What a user of our software notices when the issue arises
 >Failure Measurement: How we will notice the issue 
