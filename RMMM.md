@@ -14,4 +14,4 @@ Fixing Difficulty: How difficult we imagine a potential fix to be if the risk sh
 Overall Risk: An estimation of how much the Risk affects us and our project considering all factors. 
 
 
-![RiskManagement](https://github.com/SE-TINF22B6/Plapy/assets/57218126/afdcdb9f-6326-42cd-b718-c85191197eb5)
+![RiskManagement](https://github.com/SE-TINF22B6/Plapy/assets/57218126/47fa0f2d-a835-4da7-9747-9b57248971e7)
